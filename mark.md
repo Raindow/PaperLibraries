@@ -39,3 +39,22 @@ git push origin master
 # hezijishuohua8
 ```
 
+错误情况统计：
+
+- Changes not staged for commit
+
+	提交时加上参数：-a ，表示新增。
+
+	```bash
+	git commit -am "提交说明"
+	```
+	
+- Untracked files
+
+	把文件添加进去
+
+	```bash
+	git add ""文件名
+	```
+
+	
