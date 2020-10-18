@@ -40,11 +40,17 @@
 	
 	utilize：利用
 	
+	stochastic：随机的
 	
+	recurrent：周期性的
+	
+	thorough：完全的，十分的
+	
+	compensates：弥补
 
 ## Abstract
 
-针对什么领域，当前这个领域里的方法已经很好了，但仍然有些不足？我们基于什么思想提出了
+针对什么领域，当前这个领域里的方法已经很好了，但仍然有哪些不足？我们基于什么思想提出了
 
 什么方法解决了什么问题？基本思想是从前就存在的，依据同一思想的方法也是有的，那么同一思想中方法的问题，你是如何解决的？在你的算法里具体是什么样的？算法的效果如何？
 
@@ -60,7 +66,7 @@
 
 1. 通过被选择设计的特征（engineered features，这个词组的理解还没到位）提取出组合元素区域（component regions，指的应该是可能组成字串的小区域）
 2. 筛选出候选组件区域
-3. 组合提取出的要素形成文字。
+3. 组合提取出的要素通过串联等形式形成文字。
 
 传统方法往往受限于被选择设计的特征而且需要复杂的后处理（heavy post-processing）。
 
@@ -87,8 +93,9 @@
 接下来的文章结构如下：
 
 - 文字检测相关工作介绍（Section2）
-
 - 提出的方法细节（Section3）
+- 实验结果（Section4）
+- 总结，观点（Section5）
 
 
 ## Related work
@@ -109,4 +116,36 @@
   1. 得到文本分割图，获得字符质心，然后获得文本实例
   2. 通过FCN以整体方式提取字符文字区域（mark一下，“Scene text detection via holis- tic, multi-channel prediction”）
   3. 利用FCN的多尺度输出，通过级联FCN产生文字
-  4. 将文字的分割视为三类的分割，除了文字区，非文字区，还有一个边界区域。这一观念的进一步发展则是，使用语义敏感文本边界以及自展技术（bootstrapping technique）去生成更多训练实例。
+  4. 将文字的分割视为三类的分割，除了文字区，非文字区，还有一个边界区域。这一观念的进一步发展则是，使用语义敏感文本边界以及自展技术（bootstrapping technique）去生成更多训练实例（Bootstrapping算法，指的就是利用有限的样本资料经由多次重复抽样，重新建立起足以代表母体样本分布的新样本）
+  5. Deep Direct Regression和EAST则是预测估计（estimate）基于像素的多边形
+  6. PixelLink 则是使用八个方向的链接（8-direction link）识别文字边界然后组成文字实例
+  7. 将图片在像素层面视为随机流图（SFG），然后使用马尔可夫聚类网络聚合成文字区域（Markov clustering Network）
+
+- 组件级，文字区域被视为一块块的文本组件的组合。
+
+  1. CTPN利用固定宽度的文本块进行水平文字的检测，然后通过RNN网络进行组件的链接
+  2. SegLink则是通过学习分割区域以及8-邻域之间的联系，进而组合为文字实例。其作者认为可以利用四个检测得到的角点与四个部分的分割图生成文本实例（os：这不是Coner算法？下论文可以看出Corner算法的思想，“Multi-oriented scene text detection via corner localization and region segmentation”）
+  3. CTD，回归得到文本内容的多个角点，然后通过TLOC提炼出结果
+  4. TextSnake将文本区域视为一组Disks，实现曲线文本检测（可以想象贪吃蛇🐍）
+
+### Comparison with related works
+
+与传统方法相比，ICG具有类似的流程，但通过学习得到的文字组件和吸引/排斥链接极大加强了检测能力（包括准确性以及效率）。
+
+与顶-下深度学习方法相比，ICG不但在多方向文字检测方面具有很强竞争能力，而且在多形状文本方面更加准确（the proposed ICG has the advantages to accurately detect arbitraryshaped texts while maintaining competitive results on multioriented text detection）。
+
+ICG作为底-上方法，旨在解决一个以往的底-上方法并没有投入过多的关注的问题——密集多形状文本检测。ICG提出几个重要想法：
+
+- 吸引/排斥链能够区分紧密的文本内容
+- 定义的实例敏感损失（Instance-aware loss）能够弥补一般底-上方法后处理过于复杂难以达到端到端训练目的的问题（The proposed instance-aware loss somehow compensates the drawback of bottom-up methods which usually involve a postprocessing that cannot be trained in an end-to-end way）
+- 上述方法可以被普遍的应用于密集，形状多变文本的检测
+
+## Methodology
+
+### Overview
+
+顶-下方法受一般目标检测的影响，在多向文本检测中大放异彩，但他们在自然场景中多见的弯曲文本检测方面遇到了问题。
+
+底-上方法在任意形状文本处理中，显得更加游刃有余，也因此成为这一领域的砥柱中流。但底-下方法有如下两个主要问题：
+
+- 难以区分距离较近的不同实例文本，对于密集文本而言，相对较近的文本区域，可能会被检测为同一文字领域
