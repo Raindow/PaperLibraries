@@ -63,6 +63,8 @@
 	alleviate：减轻缓和
 	
 	integrate：使完整，使成为整体
+	
+	hyperparameter：超参数，机器学习算法中的调优参数，需要人为设定
 
 ## Abstract
 
@@ -136,7 +138,7 @@
   7. 将图片在像素层面视为随机流图（SFG），然后使用马尔可夫聚类网络聚合成文字区域（Markov clustering Network）
 
 - **组件级**，文字区域被视为一块块的文本组件的组合。
-1. CTPN利用固定宽度的文本块进行水平文字的检测，然后通过RNN网络进行组件的链接
+  1. CTPN利用固定宽度的文本块进行水平文字的检测，然后通过RNN网络进行组件的链接
   2. SegLink则是通过学习分割区域以及8-邻域之间的联系，进而组合为文字实例。其作者认为可以利用四个检测得到的角点与四个部分的分割图生成文本实例（os：这不是Coner算法？下论文可以看出Corner算法的思想，“Multi-oriented scene text detection via corner localization and region segmentation”）
   3. CTD，回归得到文本内容的多个角点，然后通过TLOC提炼出结果
   4. TextSnake将文本区域视为一组Disks，实现曲线文本检测（可以想象贪吃蛇🐍）
@@ -166,7 +168,7 @@ ICG作为底-上方法，旨在解决一个以往的底-上方法并没有投入
 
 为了通过底-下方法解决上述的两个主要问题——密集，多形状的文字检测，新提出一种ICG结构（instance-aware component grouping framework），网络工作流程如下：
 
-![image-20201018195418562](assets/image-20201018195418562.png)
+![image-20201019200350904](assets/image-20201019200350904.png)
 
 网络通过VGG16进行特征提取，获得多层次的特征输出，在此基础上，根据文本组合元素以及各元素之间的吸引/排斥关系，通过类似最小生成树的算法（modified minimum spanning tree），组合小部分，进而得到多个多边形的文本检测框，再通过多边形NMS获得了最终结果。在这一流程中，我们利用文本实例敏感的损失函数，使得后处理的过程能够更好的与网络结合，通过训练调节后处理的效用。
 
@@ -191,7 +193,8 @@ ICG由两个模块组成，分别解决上述的两个难题。
 
 	1. 吸引力（attractive force），$w_a(e)$
 	2. 排斥力（repulsive force），$w_r(e)$
-
+3. 地方消防车
+	
 - **网络使用实例敏感损失函数**（Network training with instance-aware loss），以往的底-上方法难以将繁重的后处理任务结合到网络训练中进行优化。为了减轻这个问题，我们将基于最小生成树（MST算法，一般有Prim算法和Kruskal算法，基于图中文本组件区域是比较多的，边的数量也是极大的，或许使用Prim算法更加合适，此外Prim算法可以利用Fib堆进行优化。不过这里的细节。。emmm，先记录下😂）的后处理集合到网络训练中，并由此提出了ICG损失函数。此外我们还使用了IoU（intersection-over-union），将检测结果与标签刻画的实际文本区域的重合度作为一个考量网络损失的方面，如下是几个基本量：
 
 	$g_i$：第$i$个groud-truth text instances（标记的文字实例）
@@ -216,4 +219,44 @@ ICG由两个模块组成，分别解决上述的两个难题。
 	
 	
 
-我们将VGG16作为主干网络去提取图片特征，并将最后两层全连接网络$fc_6$和$fc_7$替换为卷积层$conv_6$和$conv_7$。
+我们将VGG16作为主干网络去提取图片特征，并将最后两层全连接网络$fc_6$和$fc_7$替换为卷积层$conv_6$和$conv_7$，在此基础上又添加了$conv_{8\_1}$到 $conv_{11}$的卷积层，更深层次的卷积特征能够扩大网络的感受野进而解决处理多尺度的文本检测。我们选择了六个卷积层（$l=\left\{1,2,...,6\right\}:conv_{4\_3},conv_7,conv_{8\_2},conv_{9\_2},conv_{10\_2}, conv_{11}$），利用$3*3$卷积层进行处理，获得文本提取区域和吸引/排斥链接。
+
+- **文本提取区域的学习**，对于形状多样的文本内容的检测，我们首先用$(x,y,w,h,\theta)$元组表示一个旋转的文本组件，$(x,y)$是文本元素的中心点，$w$和$h$则是文本组件的宽高，$\theta$则是旋转角度。因此，在设置SSD网络中的先验框时，我们对不同卷积层设置了不同高度的先验框$h_d^l,l=1,2,...,6$（这里需要注意，对于文字组件区域的宽度，我们并没有调整，一方面是没必要，另一方面减少变量，我们将每一块宽度视为定值，但不同深度的文本组件区域，他的高度可能是变化比较大的）：
+  $$
+  \begin{equation}
+    \begin{split}
+      & h_d^1=12 \\
+      & h_d^2=24 \\
+      & h_d^3=45 \\
+      & h_d^4=90 \\
+      & h_d^5=150 \\
+      & h_d^6=285 \\
+    \end{split}
+  \end{equation}
+  $$
+
+  每层先验框的高度按照如下比例进行设置：
+  $$
+  h_d^l=a_l\approx\gamma\frac{w_I}{w_l}
+  $$
+  $w_I$：图片的宽度
+
+  $w_l$：特征图$l$的宽度
+
+  $\gamma$：超参数，文中默认为1.5
+
+  文本组件提取模块会输出8通道特征图，其中两维会经过Softmax层得到分类结果分数$s$，其余六通道则会被用于预测定向文本组件的几何特性（the other 6-channel is reserved for the geometrical properties of oriented text component representation）。
+
+  值得一提的是，网络并不直接回归得到文本的旋转方向$\theta$，而是通过回归获得$sin\theta$和$cos\theta$。
+
+  综上所述，对于某一卷积层的输出特征层$l$，我们用元组$(x_g,y_g,w_g,h_g,\theta _g)$表示$(x_d^l,y_d^l)$（检测过程中以点$(x_d,y_d)$为预测文本组件中心点）处文本的真实位置（监督学习，由标签给出），然后在文本分类之外，文本组件检测模块还会去回归$(\Delta x,\Delta y,\Delta w,\Delta h,\Delta sin \theta,\Delta cos \theta)$中的各项，回归方式如下：
+  $$
+  \begin{align}
+    & \Delta x=\frac{x_g-x_d^l}{a_l}, \\
+    & \Delta y=\frac{y_g-y_d^l}{a_l}, \\
+    & \Delta w=log(\frac{w_g}{a_l}), \\
+    & \Delta h=log(\frac{h_g}{a_l}), \\
+  \end{align}
+  $$
+
+- **吸引/排斥链接的训练**，

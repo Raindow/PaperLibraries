@@ -28,8 +28,13 @@ git push -u origin master
 ```bash
 # 修改、提交前，都要先拉取。。
 # git pull --rebase origin master
-# 如果有新文件
+# 如果不知道增减了什么文件，或者新文件太多，或文件删除太多，可以用如下命令查看哪些文件未被git记录在案
+git status
+# 然后如果有新文件，感觉文件大概都知道，也没什么大问题，就可以用如下四个命令之一
 git add "文件名"
+git add . # 提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
+git add -A # 提交所有变化
+git add -u # 提交被修改(modified)和被删除(deleted)文件，不包括新文件(new)
 # 修改说明
 git commit -m "说明"
 # 提交
@@ -43,7 +48,7 @@ git push origin master
 
 - Changes not staged for commit
 
-	提交时加上参数：-a ，表示新增。
+	提交时加上参数：-a ，表示将新增的修改添加到提交过程中（不包括Untracked files）。
 
 	```bash
 	git commit -am "提交说明"
@@ -57,4 +62,6 @@ git push origin master
 	git add ""文件名
 	```
 
-	
+	$git \ add$能够有多个后参数，含义不同
+
+![image-20201019201438376](MarkAssets/image-20201019201438376.png)
