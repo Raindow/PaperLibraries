@@ -316,7 +316,7 @@ $h_d$是先验框的高度，当多个ground-truth文本实例包含$p$时（密
     $$
     L_C(s_g,l_g,s_p,l_p)=\frac{L_conf(s_g,s_p,w)+\alpha\times L_{loc}(l_g,l_p,w)}{N_d}
     $$
-    
+  
 - 对于吸引排斥检测，
   
   $w_a^g$：ground-truth的attractive的weight
@@ -336,17 +336,17 @@ $h_d$是先验框的高度，当多个ground-truth文本实例包含$p$时（密
   $L_{conf}$：二类Softmax损失函数
   
   损失率$L_E$如下：
-    $$
+  $$
     L_E=\frac{L_{conf}(w_a^g,w_a^p,w)+\beta\times L_{conf}(w_r^g,w_r^p,w)}{N_a+N_r}
-    $$
-    
+  $$
+  
   
   最后，将这两部分损失率按一定比例相加，得到最终损失函数$L$
   
   $\lambda_1$和$\lambda_2$：是两个hyper-parameter。
-    $$
+  $$
     L=\lambda_1\times L_C+\lambda_2\times L_E
-    $$
+  $$
   
 - Online hard negative mining（负难样本挖掘）
 
@@ -390,3 +390,7 @@ $$
   IoU'=\frac{\left|A\cap B\right|}{min(\left|A\right|,\left|Bs\right|)}
   $$
   最终我们的NMS的分数是多边形面积与其平均高度之间的比率。 该多边形NMS有助于摆脱一些小的重复检测。（原文：we adopt a polygon non maximum suppression (NMS) based on a modified $IoU'=\frac{\left|A\cap B\right|}{min(\left|A\right|,\left|Bs\right|)}$ for two polygons A and B , where $\left|\cdot\right|$ denotes the cardinality. The score for NMS is the ratio between area of polygon and its average height. This polygon NMS helps to get rid of some small and redundant detections.这里的语义理解有点问题……容我再思考思考🤣）
+  
+  ## 4. Experiments
+  
+  新算法主要针对密集多形状的场景文字，为了论证算法的有效性，我们第一次引入了一个多由商品图片组成的数据集——DAST1500，该数据集包含大量密集任意形状的文本内容，我们对这一数据集做了彻底的研究（We conduct ablation study on this dataset），并将研究结果与其他最先进的方法进行了比较，此外我们也在其他两个多向文本数据集和另两个弯曲文本数据集上，进行了网络的测验。
