@@ -73,6 +73,18 @@
 	coherent：连接的，相关的
 	
 	redundant：过剩的，多余的
+	
+	rebust：强健的，鲁棒的
+	
+	facilitates：方便，促进
+	
+	multi-lingual：多语言的
+	
+	adjacent：相邻的，毗邻的，连续的
+	
+	exceed：超过
+	
+	decouple：使分离，解耦
 
 ## Abstract
 
@@ -128,13 +140,13 @@
 
 在深度学习介入之前，文字检测有一套经典自底向上的流程：文本模块提取筛选，文本区域组合以及对文本候选区域进行筛选。大连的工作专注于通过特定的特征提取文本组合元素（component），比如MSER（Maximally Stable Extremal Regions）和SWT（Stroke Width Transform）。近些年，深度学习在这领域广泛应用，同时在准确性和效率上也远超以往的方法。一般来说深度学习可以分为两个方向：自顶向下和自底向上两种。
 
-顶-下方法受一般物体检测影响，基于先验框，通过回归得到文本框。在检测中，面对文本的大纵横比变化，通过SSD网络，使用长先验框和长卷积核来处理文本的大纵横比变化（applies long default boxes as well as convolution kernel to deal with large aspect ratio variation of text）。TextBoxes++在此基础上更进一步，面对多向文字通过回归多边形角点坐标进行检测。SSTD则是通过FCN引入注意力模块去增强文字检测的训练过程和多尺度的检测。面对多变的方向问题，相继产生了很多方法：
+**顶-下**方法受一般物体检测影响，基于先验框，通过回归得到文本框。在检测中，面对文本的大纵横比变化，通过SSD网络，使用长先验框和长卷积核来处理文本的大纵横比变化（applies long default boxes as well as convolution kernel to deal with large aspect ratio variation of text）。TextBoxes++在此基础上更进一步，面对多向文字通过回归多边形角点坐标进行检测。SSTD则是通过FCN引入注意力模块去增强文字检测的训练过程和多尺度的检测。面对多变的方向问题，相继产生了很多方法：
 
 - R2CNN调整了Fast-RCNN的流程，添加了倾斜框的预测
 - Deep Matching Prior Network，使用了两个分支，一个是旋转相关的特征用于检测，另一个是旋转无关的特征用于分类，进而得到更好的长的多向文本
 - Instance transformation network，学习几何感知表示信息（啊，这……先看看吧，不知道，先余着）来测定文本方向
 
-底-上场景文字检测，则是与传统方法类似的流程，首先检测出文本组件区域（text components），然后让他们串联。一般而言，底-上方法可以被分为像素级和组件级方法。
+**底-上**场景文字检测，则是与传统方法类似的流程，首先检测出文本组件区域（text components），然后让他们串联。一般而言，底-上方法可以被分为像素级和组件级方法。
 
 - **像素级**，将文字检测视为分割任务，因此在这方面，FCN网络经常被用于生成像素级分类特征图，然后通过后处理将文字像素组合成实例对象。
   1. 得到文本分割图，获得字符质心，然后获得文本实例
@@ -218,13 +230,11 @@ ICG由两个模块组成，分别解决上述的两个难题。
 	
 	ICG在大多数底-上方法中都能够使用，并能很好地分离相近文本，将后处理结合到网络训练之中。
 	
-	### 3.3. Network architecture
-	
-	新的网络结构在SegLink的基础上，借鉴SSD网络进行搭建，具体如下：
-	
-	![image-20201019090954930](assets/image-20201019090954930.png)
-	
-	
+### 3.3. Network architecture
+
+新的网络结构在SegLink的基础上，借鉴SSD网络进行搭建，具体如下：
+
+![image-20201019090954930](assets/image-20201019090954930.png)
 
 我们将VGG16作为主干网络去提取图片特征，并将最后两层全连接网络$fc_6$和$fc_7$替换为卷积层$conv_6$和$conv_7$，在此基础上又添加了$conv_{8\_1}$到 $conv_{11}$的卷积层，更深层次的卷积特征能够扩大网络的感受野进而解决处理多尺度的文本检测。我们选择了六个卷积层（$l=\left\{1,2,...,6\right\}:conv_{4\_3},conv_7,conv_{8\_2},conv_{9\_2},conv_{10\_2}, conv_{11}$），利用$3*3$卷积层进行处理，获得文本提取区域和吸引/排斥链接。
 
@@ -391,6 +401,31 @@ $$
   $$
   最终我们的NMS的分数是多边形面积与其平均高度之间的比率。 该多边形NMS有助于摆脱一些小的重复检测。（原文：we adopt a polygon non maximum suppression (NMS) based on a modified $IoU'=\frac{\left|A\cap B\right|}{min(\left|A\right|,\left|Bs\right|)}$ for two polygons A and B , where $\left|\cdot\right|$ denotes the cardinality. The score for NMS is the ratio between area of polygon and its average height. This polygon NMS helps to get rid of some small and redundant detections.这里的语义理解有点问题……容我再思考思考🤣）
   
-  ## 4. Experiments
-  
+## 4. Experiments
+
   新算法主要针对密集多形状的场景文字，为了论证算法的有效性，我们第一次引入了一个多由商品图片组成的数据集——DAST1500，该数据集包含大量密集任意形状的文本内容，我们对这一数据集做了彻底的研究（We conduct ablation study on this dataset），并将研究结果与其他最先进的方法进行了比较，此外我们也在其他两个多向文本数据集和另两个弯曲文本数据集上，进行了网络的测验。
+
+### 4.1. Dataset and evaluation protocol
+
+**DAST1500 Datasets**：当前，已经有各种具有挑战性的数据集构建起来用于促进鲁棒OCR的发展。但据我们所知（to the best of our knowledge），当前公开（publicly available）的数据集中并没有包含很多密集而多形状的文本内容，但需要认识到的是，这一类型文字在商品详情图片中非常常见。包装上的商品介绍在有限空间中排布的非常紧密，而容易折皱的包装又让文字的排布显得非常不规则（Density comes from the limited space for introduction, while irregularity results from the easily wrinkled packing）。如果可以自动而准确地读取这些商品图片中的文字，那么就能极大地方便商品监控、商品分类、智能检索或推荐等应用（Robustly and automatically reading texts in these commodity images greatly facilitates many applications such as goods surveillance, products classification, and intelligent retrieval or recommendation）。
+
+因此我们决定建立一个专注于密集多形状的文字检测数据集——DAST1500，并以此为基础引起大家对相关领域的兴趣（To raise the interest in reading commodity images, we introduce a dense and arbitrary-shaped text detection dataset named DAST1500）。DAST1500有1538张图片以及45963行级标注（包括7441弯曲文本检测框）。这些图片都是从网络上手工收集像素为$800 \times 800$的图片。此外这个数据集包含多个语言，大多为中文，还含有部分英语和日语文字。所有的图片被划分为以下的两部分：1038张图片的训练集以及500张图片的测试集。
+
+对于这些密集而多形状的文本，我们利用不定长的点线界定文本行。同时为了标注出每一个文本实例，我们使用一系列毗邻四边形组成的轮廓多边形来拟合一条弯曲的曲线。这个数据集主要是行级标注，举个例子，当文本部分间的间距超过了文本行的基本高度（我认为可能就是一行文字高度的中值高度，或是平均高度，或是最小高度），我们则将这行文字划分为两个文字实例，这可以将文本提取步骤从商品图像的各种布局的影响中分离出来，例子如下：
+
+![image-20201103113450393](assets/image-20201103113450393.png)
+
+**SynthText in the Wild**： 由80万向自然图片中添加多样随机字体大小，随即方向颜色的文本内容的合成图片组成，标签等级为字符级，单词级，行级。本网络中使用了单词级来预训练网络。
+
+**ICDAR2015 Incidental Scene Text (IC15)**：此数据集被广泛的用于多方向性的文本检测，并被当作一种基准（baseline）。它是为ICDAR2015鲁棒识别比赛而发布的，该数据集中的图像是由谷歌眼镜在没考虑文本质量的情况下随意拍摄的。因此数据集中的文本在尺度、方向、对比度、模糊和视点等方面表现出很大的变化，这使得文本检测更具挑战性。本数据集包括1000训练图片和500测试图片。图片标注提供了词组级的四边形标注。
+
+**MTWI**：源于网络专注多类型文本（文字字体、文字大小、文本布局、文本背景）图片数据集。文本内容多为英文和中文。本数据集包含1000张训练数据集和10000张测试数据集。标签信息则是行级的标注，同样考虑了文本实例之间的空格情况。
+
+**SCUT-CTW1500**：和经典的专注于多方向的文本数据集不同，本数据集专注于弯曲文本（Different from classical multi-oriented text datasets, this dataset is **dedicated** to build a quite challenging dataset with curved texts）它包含1000张训练图片和500张测试图片。数据集包含超过1万的文本标注，同时每张图片至少包含一处弯曲文本。每个文本实例则使用14点刻画的多边形进行描述。标注信息是行级的，无论是直行还是弯曲行。
+
+**TotalText**：本数据集也关注多形状的文本检测。他共有1555场景图片，划分为1255训练图片和300张测试图片，数据集中包含很多弯曲和多向的文本。标注信息是词组级别的，使用多边形的文本标注框，而多边形的顶点并不固定。
+
+对于每个数据集，如果有提供特殊的相关评价标准，则以该标准评判性能，如果并没有提供评价标准，则使用标准PASCAL VOC的评判准则评判ICG模块的性能。
+
+### 4.2. Implementation details
+
