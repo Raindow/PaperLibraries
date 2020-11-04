@@ -85,6 +85,10 @@
 	exceed：超过
 	
 	decouple：使分离，解耦
+	
+	implementation：安装，应用，实现
+	
+	ablation study：类似于控制变量，可以如下理解，对于baseline，添加A和B模块，性能得到提升，此时做ablation study，在baseline的基础上，只添加A模块或只添加B模块进行测试，分别看添加一个模块，会不会对模型效果有所提升
 
 ## Abstract
 
@@ -323,8 +327,10 @@ $h_d$是先验框的高度，当多个ground-truth文本实例包含$p$时（密
     这里$s_g$可能指，如果这个区域是文字，则$Score=1$，否则为0
 
     检测模块损失率$L_C$由下式给出：
+    
+    <a name="formula_9"></a>
     $$
-    L_C(s_g,l_g,s_p,l_p)=\frac{L_conf(s_g,s_p,w)+\alpha\times L_{loc}(l_g,l_p,w)}{N_d}
+    L_C(s_g,l_g,s_p,l_p)=\frac{L_conf(s_g,s_p,w)+\alpha\times  L_{loc}l_g,l_p,w)}{N_d}
     $$
   
 - 对于吸引排斥检测，
@@ -346,16 +352,20 @@ $h_d$是先验框的高度，当多个ground-truth文本实例包含$p$时（密
   $L_{conf}$：二类Softmax损失函数
   
   损失率$L_E$如下：
+  
+  <a name="formula_10"></a>
   $$
-    L_E=\frac{L_{conf}(w_a^g,w_a^p,w)+\beta\times L_{conf}(w_r^g,w_r^p,w)}{N_a+N_r}
+  L_E=\frac{L_{conf}(w_a^g,w_a^p,w)+\beta\times L_{conf}(w_r^g,w_r^p,w)}{N_a+N_r}
   $$
   
   
   最后，将这两部分损失率按一定比例相加，得到最终损失函数$L$
   
   $\lambda_1$和$\lambda_2$：是两个hyper-parameter。
+  
+  <a name="formula_11"></a>
   $$
-    L=\lambda_1\times L_C+\lambda_2\times L_E
+  L=\lambda_1\times L_C+\lambda_2\times L_E
   $$
   
 - Online hard negative mining（负难样本挖掘）
@@ -373,7 +383,7 @@ $$
   \end{split}
 \end{equation}
 $$
-然后，我们在互斥分水岭算法（mutex watershed，具体是什么……mark一下）的启发下，修改最小生成树算法将文本组件组合成宇轩文本实例，然后利用多边形组合和多边形极大抑制（NMS）完成文本检测工作。
+然后，我们在互斥分水岭算法（mutex watershed，具体是什么……mark一下）的启发下，修改最小生成树算法将文本组件组合成预选文本实例，然后利用多边形组合和多边形极大抑制（NMS）完成文本检测工作。
 
 - Modified MST（改进的最小生成树算法）
 
@@ -428,4 +438,27 @@ $$
 对于每个数据集，如果有提供特殊的相关评价标准，则以该标准评判性能，如果并没有提供评价标准，则使用标准PASCAL VOC的评判准则评判ICG模块的性能。
 
 ### 4.2. Implementation details
+
+我们首先在SynthText数据集上对模型进行预训练，然后在其他目标数据集上对它进行微调。上述公式[（9）](#formula_9)[（10）](#formula_10)[11](#formula_11)中的超参数$\alpha$，$\beta$，$\lambda_1$和$\lambda_2$在实验中设置为1。该网络采用标准SGD算法进行优化，动量设置为0.9。在预训练和调整过程（For pretraining and finetuning），图片经过随机切割后分别调整为$384 \times 384$和$512 \times 512$大小。batch size（批大小）设置为16。在预训练过程中，前60k的迭代学习率为$10^{-3}$，后30k的迭代学习率降低为$10^{-4}$。在调整（finetuning）过程中学习率则固定为$10^{-4}$，而对于前10-20k的迭代，[Section 3.2](#3.2. Instance-aware component grouping framework Bottom-up)中描述的实例敏感的权重设置为1，然后再按照[Section 3.2](#3.2. Instance-aware component grouping framework Bottom-up)中的方法计算新的Instance-aware weight，并将其用于公式[11](#formula_11)计算Instance-aware loss。这个训练步骤需要5-10K的迭代，取决于数据集的大小。在推理过程涉及的超参数：文本评分初值$t_s$和链接边权重初值$t_l$通过验证集上的网格搜索获得（are decided with grid search on a validation set。。有些没理解全），训练阶段，这两个参数则是基于最初的模型进行选择的，并不根据Instance-aware scheme进行选择。
+
+### 4.3. Ablation study on DAST1500
+
+为了证明，Instance-aware 组件组合网络（instance-aware component grouping framework）的效果，我们在DAST1500数据集上测试了ICG的几个变体进行了Ablation study。这些变体总结如下：
+
+- Baseline：此基础并未加入吸引排斥链和instance-aware loss模块，比较相近于seglink。它和ICG模型的区别在于，它的排斥负极链只在文本像素和非文本像素（背景），同时我们使用了Section 3.6中提及的筛选策略和多边形NMS方法
+- Baseline+ins.-aware loss：在baseline的基础上添加了instance-aware loss模块，但并没有使用排斥链
+- Baseline + att/rep links：使用了排斥/吸引链，但是并没有使用instance-aware loss
+- Baseline + att/rep links + ins-aware loss (ICG)：使用了吸引/排斥链和instance-aware loss模块（ICG）
+
+这些方法专注于解决非常具有挑战性的密集多形状场景文字检测，我们在DAST1500这个数据集上进行了ablation study，在测试阶段数据集中的图片被调整为$768 \times 768$的大小。对于ICG模块，Section 3.6中提及的$t_s$和$t_l$分别设置为0.5和0.45。我们使用OpenCV中的`approxpolyDP`方法去提取多边形。
+
+Ablation Study的结果如下
+
+![image-20201104174547933](assets/image-20201104174547933.png)
+
+分析各个模块的有效性，提高的精度。
+
+然后分析模块结合在一起之后的有效性，效果展示，参数讲解。
+
+同时除了进行ablution study之外，我们还比较了
 
