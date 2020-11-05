@@ -89,6 +89,8 @@
 	implementation：安装，应用，实现
 	
 	ablation study：类似于控制变量，可以如下理解，对于baseline，添加A和B模块，性能得到提升，此时做ablation study，在baseline的基础上，只添加A模块或只添加B模块进行测试，分别看添加一个模块，会不会对模型效果有所提升
+	
+	quantitative evaluation：定量分析
 
 ## Abstract
 
