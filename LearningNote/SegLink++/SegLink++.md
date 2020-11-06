@@ -209,7 +209,7 @@ detailed in Section 3.2 is **rather general**），同时要认识到，这个�
 
 （os：第一段老生常谈，但英语描述让人觉得相对还是有新意的）
 
-底-上文本检测通常在密集文字和任意形状场景文字检测上更加的零花，为了减轻解决分离间距过小、以及后处理难以优化的问题（To alleviate the two major problems of bottom-up text detection methods: diffi- culty in separating close text instances and non-optimized post- processing），ICG闪亮登场。
+底-上文本检测通常在密集文字和任意形状场景文字检测上更加的灵活，为了减轻解决分离间距过小、以及后处理难以优化的问题（To alleviate the two major problems of bottom-up text detection methods: diffi- culty in separating close text instances and non-optimized post- processing），ICG闪亮登场。
 
 ICG由两个模块组成，分别解决上述的两个难题。
 
