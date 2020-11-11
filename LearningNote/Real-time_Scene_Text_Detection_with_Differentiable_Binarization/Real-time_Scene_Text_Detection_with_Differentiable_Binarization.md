@@ -119,4 +119,27 @@
 
 **接下来**：利用$P$和$F$计算获得近似二进制图$\hat{B}$
 
-**在训练期间**：
+**在训练期间**：通过监督学习获得概率图，阈值图和近似二进制图，概率图和近似二进制图享受同等的监督（原文“In the training period, the supervision is applied on the probability map, the threshold map, and the approximate binary map, where the probability map and the approximate binary map share the same supervision”这部分的理解还是没有很到位）
+
+**推论阶段**：通过近似二进制图或是方框公式模块组成的概率图获得检测框
+
+### Binarization
+
+**Standard binarization**：分割网络得到了一个概率图$P \in R^{H \times W}$，$H$和$W$代表概率图的高和宽，进而在此基础上将概率图转化为二进制图像，二进制图像上所有值为1的像素点被视为有效文本区域。通常二值化过程可以用如下公式描述：
+$$
+B_{i,j} = 
+\begin{cases}
+1 & if \ P_{i,j} \geq t, \\ 
+0 & otherwise.
+\end{cases}
+$$
+$t$是预先定义的阈值而$(i,j)$则是`map`中对应的点坐标
+
+**Differentiable binarization**：公式1的标准二值化过程并不是可微的，因此他无法在分割网络的训练过程中进行优化。为了解决这一问题，我们提出了一种近似法来实现二值化，公式如下：
+$$
+\hat{B}_{i,j} = \frac{1}{1+e^{-k(P_{i,j}-T_{i,j})}}
+$$
+$\hat{B}$，代表近似二进制图
+
+
+
