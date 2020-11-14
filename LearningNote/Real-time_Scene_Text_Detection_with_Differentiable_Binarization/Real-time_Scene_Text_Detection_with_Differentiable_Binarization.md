@@ -1,5 +1,9 @@
 # Real-time Scene Text Detection with Differentiable Binarization
 
+[toc]
+
+
+
 - 词短句翻译
 
   differentiable：可微的，微分的
@@ -39,6 +43,12 @@
   augmented：扩大的，增大的
   
   amplifying：放大的
+  
+  facilitate：促进，有助于
+  
+  deformable：可变形的
+  
+  empirically：以经验为主地
 
 ## Abstract
 
@@ -182,4 +192,45 @@ $$
 我们可以从微分处看到以下几点：
 
 1. 梯度受到放大因子$k$的影响增大
-2. 
+2. 梯度放大对多数被错误预测的区域有显著作用，（$x<0{\ }for{\ }L_+;{\ }x>0{\ }for{\ }L_-$），因此它能够促进网络的优化，也有助于生成更加好的预测结果（produce more distinctive predictions）。
+3. 如公式$x=P_{i,j}-T_{i,j}$所示，P的梯度受T影响，在前景和背景之间变化（the gradient of P is effected【原文笔误，应为affected】 and rescaled between the foreground and the background by T）
+
+### Adaptive threshold
+
+自适应的阈值
+
+阈值图从表现上近似于文本边图（the text border map in (Xue, Lu, and Zhan 2018)）的效果。但是，需要认识到的是，使用阈值图和使用的文字边图的出发点和使用方法是完全不同的。下图分别展示了无监督学习的阈值映射图和有监督学习的阈值映射图：
+
+![image-20201114190436676](assets/image-20201114190436676.png)
+
+如图所示，类似边框的阈值映射图对最终的结果有极大的帮助，因此我们在阈值图上使用边界监督进而更好的为之后的结果做指导。在实验介绍章节（Experiments section）将介绍有关于监督模块的消融实验。在使用方面，文本边图用于区分文本实例而我们的阈值映射图则是作为二值化的阈值依据。
+
+### Deformable convolution
+
+可变的卷积
+
+可变卷积能够让模型拥有灵活的感受野，尤其对有着极端纵横比的文本内容检测有着极大的帮助。有前人将可变形卷积应用在ResNet-18或是ResNet-50主干网络的$Conv3$，$Conv4$和$Conv5$阶段的所有$3\times3$卷积层中，获得了较好的效果。
+
+### Label generation
+
+![image-20201114195941354](assets/image-20201114195941354.png)
+
+受PSENet的启发，基于概率图进行标签生成。对一张文本图片，每一文本区域的多边形边界由以下一系列的分割片段进行描述：
+$$
+G=\left\{S_k\right\}_{k=1}^n
+$$
+$n$：顶点数，不同的数据集拥有不同的顶点数，ICDAR 2015数据集$n=4$，而CTW1500则为$16$
+
+$G$：由分割结果得出的文本区域
+
+$G_S$：在$G$的基础上，根据*Vatti clipping algorithm*（mark 一下，是计算机图形学中比较经典的算法）收缩获得的被视为有效的区域，收缩的偏移量$D$，由原始文本区域边长$L$和区域$A$（"The offset D of shrinking is computed from the perimeter L and area A of the original polygon"，感觉这里说的是区域的面积）用如下公式计算获得：
+$$
+D=\frac{A(1-r^2)}{L}
+$$
+上述式子中：
+
+$r$：收缩比，依据经验设置为$0.4$
+
+
+
+$G_d$：
