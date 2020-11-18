@@ -52,7 +52,13 @@
   
   dilate：使扩大
   
+  formation：形成，构造
   
+  perimeter：周长
+  
+  synthetic：人造的
+  
+  flip：翻转
 
 ## Abstract
 
@@ -278,4 +284,67 @@ $R_d$：$G_d$内的所有像素的索引
 $y^*$：阈值图中的标签
 
 在推导阶段，我们既可以使用概率图也可以使用近似二值图生成文本框，两者最终的结果几乎相同。出于效率考量，我们选择使用概率图并摒弃了阈值分支。
+
+生成文本框的过程有如下三步：
+
+1. 首先概率图/近似二进制图根据设定的阈值$0.2$生成二值图
+
+2. 连通区域（紧缩文本区域）由二值图获得
+
+3. 紧缩区域根据*Vatti clipping algorithm*以偏移量$D'$扩展，$D'$以如下计算方式获得
+   $$
+   D'=\frac{A' \times r'}{L'}
+   $$
+   $A'$：收缩区域的面积
+
+   $L'$：收缩区域的周长
+
+   $r'$：根据经验设置为$1.5$
+
+### Experiments
+
+#### Datasets
+
+具体说明使用了哪些数据集，有什么特性，用于什么
+
+**SynthText**：用于预训练，人造数据集，在自然图片中人为添加文本内容
+
+**MLT-2017 dataset**：多语言数据集，在finetune阶段使用训练集和验证集
+
+**ICDAR 2015 dataset**：labeled at the world level
+
+**MSRA-TD500 dataset**：中英多语言数据集，我们在它的基础上加入了HUST-TR400的400张训练图片
+
+**CTW1500 dataset**：专注于弯曲文本的数据集，annotated in the text-line level
+
+**Total-Text dataset**：多形状数据集，labeled at the world level
+
+#### Implementation details
+
+**实现的细节**
+
+1. 使用SynthText数据集进行预训练，进行了10万次迭代
+2. 在对应的真实（非人工合成的）数据集上训练 1200 epoches，对模型进行微调，学习率的调整遵循 poly learning policy，当前迭代的学习率等于初始化学习率$r_0$乘$(1-\frac{iter}{max_iter})^{power}$，在训练过程中，$r_0 = 0.007,{\quad}power=0.9$，此外我们将权重下降率（weight decay)设置为$0.0001$，动量设置为$0.9$，$max\_iter$代表最大的迭代数，取决于最大的 epoch值。
+
+**数据增强**
+
+1. 图片任意旋转$(-10^{\circ},10^{\circ})$
+2. 随机裁剪
+3. 随即翻转
+
+所有的图片被重新调整为$640 \times 640$，提高训练效率
+
+**推理过程**
+
+在推理过程中，我们保持了训练图片的宽高比，对不同数据集的输入图片设置了合适的图像高，并在$batch\_size = 1$，单 1080Ti GPU，单线程的条件下测试了推导速率。
+
+推导时间主要分为两部分：模型前向传导以及后处理，其中后处理占总时间的$30\%$
+
+### Ablation study
+
+消解实验
+
+在MSRA-TD500和CTW1500上进行了消解实验，定量地展现了我们提出的可微二值化，可变卷积以及不同的主干网络的效用 
+
+**Differentiable binarization**:
 
