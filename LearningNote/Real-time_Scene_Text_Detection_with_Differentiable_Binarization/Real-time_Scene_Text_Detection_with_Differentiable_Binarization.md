@@ -59,6 +59,8 @@
   synthetic：人造的
   
   flip：翻转
+  
+  benchmark：基准
 
 ## Abstract
 
@@ -346,5 +348,26 @@ $y^*$：阈值图中的标签
 
 在MSRA-TD500和CTW1500上进行了消解实验，定量地展现了我们提出的可微二值化，可变卷积以及不同的主干网络的效用 
 
-**Differentiable binarization**:
+**Differentiable binarization**：在不同数据集上上均有提升效果
 
+**Deformable convolution**：主要贡献是提供了不同大小的感受野，而额外开销并不大
+
+**Supervision of threshold map**：阈值图的监督性学习有所提升
+
+**Backbone**：ResNet-50效果相较于ResNet-18有所提升但花费近两倍
+
+### Comparisons with previous methods
+
+和其他基准方法进行比较，在precision，recall，F-measure，FPS等参数进行比较
+
+**Curved text detection**：在两个弯曲文本基准数据集上对我们模型的鲁棒性进行了验证，性能相较于之前的方法也有较大的提升
+
+**Multi-oriented text detection**：在TCDAR 2015数据集上进行了验证
+
+## Conclusion
+
+提出了创新的网络进行检测多形状的场景文字，网络在分割网络中加入了可微分二值化模块。实验证明了，论文中提出的方法在五个标准场景基准数据集上的实验效果相较于其他方法均有进步。如果将主干网络更替为更加轻量级的ResNet-18同样能有很好的表现，而且能够有相对实时的推论速度。
+
+再说下未来期望，
+
+希望能实现端对端的文本识别
