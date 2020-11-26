@@ -169,9 +169,9 @@ $$
 
 ### Position-Sensitive Segmentation
 
-通过语义分割进而推断文本框的位置，对于边界情况等的思考较为复杂，传统的方法往往需要较为复杂的后处理，受到InstanceFCN的启发，对于一个已存在的文本框$R$，利用$g*g$的网格将文本框分为$g^2$个小区域（原文为bin)，这里划分的具体细节方法还是存疑，难道是通过坐标点计算的么但感觉好像不是的，而且没感觉出这个和InstanceFCN的联系(￣▽￣)""，感觉像是在点的基础上通过语义分割，然后每个像素点进行Score map，进而判定那个像素是否属于分割图，最主要的问题，**bin区域怎么出来的？segmentation map是划分bin后做的么？这方法和InstanceFCN有什么联系？InstanceFCN每个实例有一系列的score map，他这……🙄？**
+通过语义分割进而推断文本框的位置，对于边界情况等的思考较为复杂，传统的方法往往需要较为复杂的后处理，受到InstanceFCN的启发，对于一个已存在的文本框$R$，利用$g*g$的网格将文本框分为$g^2$个小区域（原文为bin)，这里划分的具体细节方法还是存疑，难道是通过坐标点计算的么但感觉好像不是的，而且没感觉出这个和InstanceFCN的联系(￣▽￣)""，感觉像是在点的基础上通过语义分割，然后每个像素点进行Score map，进而判定那个像素是否属于分割图，最主要的问题，**bin区域怎么出来的？segmentation map是划分bin后做的么？这方法和InstanceFCN有什么联系？InstanceFCN每个实例有一系列的score map，他这……🙄？**，我现在的理解是，对特征图就直接进行分割，然后，由于计算loss的时候，对于每一个文本区域，有四个mask进行位置界定，所以会产生下面描述的情形
 
-之后利用特征提取的中的f3……f11特征层，分别进行上采样，化为统一大小，然后叠加，丰富特征信息，然后通过两次$Conv1*1-BN-ReLU-Deconv2*2$ blocks（这种描述很有趣，其实描述的是有一系列操作的模块，该模块会先利用$1*1$卷积核进行卷积，再进行一次BatchNormalization，然后通过ReLU激活函数，最后再通过一次$2*2$的反卷积操作，其实通过这样的操作能够获得ROI即region of interest），不过这两次模块有部分差异，最后一个反卷积的层中，将卷积核数量设置为$g*g$个,即调整通道数为$g^2$个，而输出结果宽高应与原图片大小相同。默认情况下，我们将$g$设置为2，通过对论文的阅读，并参考RFN中的Position-sensitive score maps，这里其实意指，通过$Conv1*1-BN-ReLU-Deconv2*2$ blocks获得了ROI，然后会根据ROI和预选框生成一个矩形，每一个ROI被分为四个区域（左上左下右上右下，四种类），然后需要针对每一个备选区域（感兴趣区域，ROI，那个矩形区域）生成$g^2$（$g$为2时就是4个）的score map，每一个ROI被分为四个区域（左上左下右上右下，四种类），然后最后一次生成的block是$w*h*g*g$,而针对分割结果如下图：
+我们在同一网络中利用角点检测构建位置敏感分割（We build position-sensitive segmentation with corner point detection in a unified network）之后利用特征提取的中的f3……f11特征层，分别进行双线性上采样，化为统一大小，然后叠加，丰富特征信息，然后通过两次$Conv1*1-BN-ReLU-Deconv2*2$ blocks（这种描述很有趣，其实描述的是有一系列操作的模块，该模块会先利用$1*1$卷积核进行卷积，再进行一次BatchNormalization，然后通过ReLU激活函数，最后再通过一次$2*2$的反卷积操作，其实通过这样的操作能够获得ROI即region of interest），不过这两次模块有部分差异，最后一个反卷积的层中，将卷积核数量设置为$g*g$个,即调整通道数为$g^2$个（这里产生了$g^2$个图层，每个图层与分割用的label进行计算，因为原gt文本区域会被分割成四张mask，左上右上左下右下，所以四张分割结果与四个mask图进行分数计算，最终就实现了位置敏感），而输出结果宽高应与原图片大小相同。默认情况下，我们将$g$设置为2，通过对论文的阅读，并参考RFN中的Position-sensitive score maps，这里其实意指，通过$Conv1*1-BN-ReLU-Deconv2*2$ blocks获得了ROI，然后会根据ROI和预选框生成一个矩形，每一个ROI被分为四个区域（左上左下右上右下，四种类），然后需要针对每一个备选区域（感兴趣区域，ROI，那个矩形区域）生成$g^2$（$g$为2时就是4个）的score map，每一个ROI被分为四个区域（左上左下右上右下，四种类），然后最后一次生成的block是$w*h*g*g$,而针对分割结果如下图：
 
 ![image-20201014141332389](assets/image-20201014141332389.png)
 
@@ -189,7 +189,7 @@ $$
 
 #### Label Generation
 
-根据文本框，确认一个基本的矩形能够覆盖最小的文本位置，然后确认四个角点的相对位置。
+生成坐标时，对标签进行处理，根据gt文本框，确认一个最小的矩形能够覆盖文本位置，然后确认矩形四个角点的相对位置。
 
 确认基本矩形位置的时候，需要注意：
 
@@ -324,8 +324,7 @@ $$
 L_{loc}=SmoothL1(y_l,p_l)
 $$
 
-$y_l$是ground truth（gt，标签标记的正确答案）的各方向的偏移量(yl is the ground truth
-of offset branch and pl)，
+$y_l$是ground truth（gt，标签标记的正确答案）的各方向的偏移量(yl is the ground truth of offset branch and pl)，
 
 $$
 y_l=(\Delta x,\Delta y,\Delta S_s,\Delta S_s)
@@ -351,7 +350,7 @@ $$
 
 **训练位置敏感分割分支**时所使用的Dice loss，如下：
 $$
-L_seg=1-\frac{2y_sp_s}{y_s+p_s}
+L_{seg}=1-\frac{2y_sp_s}{y_s+p_s}
 $$
 $y_s$是标签值，$p_s$则是预测值
 
@@ -381,7 +380,7 @@ $y_s$是标签值，$p_s$则是预测值
 
 | **<a name="RPS-ROI-Algorithm">Algorithm 1</a>** Rotated Position-Sensitive ROI Average Pooling |
 | ------------------------------------------------------------ |
-| **Input:** rotated bounding box $B$，$g × g$ regular grid $G$, Segmentation maps $S$<br />1: Generating Bins by spitting $B$ with $G$.<br />2: $M\leftarrow0, i\leftarrow0$<br />3: **for** $i$ in $range(g × g)$ **do**<br />4:    $bin \leftarrow Bins\left[i\right], C \leftarrow 0, P\leftarrow 0,$<br />5:     $R \leftarrow MiniRect(bin)$<br />6:     **for** $pixel$ in $R$ **do**<br/>7:         **if** $pixel$ in $bin$ **then**<br/>8:             $C \leftarrow C + 1, P \leftarrow P +G\left[i\right]\left[pixel\right].value$<br />9:     $M \leftarrow M + \frac{P}{C}$<br />10: $score \leftarrow \frac{M}{g * g}$ |
+| **Input:** rotated bounding box $B$，$g × g$ regular grid $G$, Segmentation maps $S$<br />1: Generating Bins by spitting $B$ with $G$.<br />2: $M\leftarrow0, i\leftarrow0$<br />3: **for** $i$ in $range(g \times g)$ **do**<br />4:    $bin \leftarrow Bins\left[i\right], C \leftarrow 0, P\leftarrow 0,$<br /> 5:     $R \leftarrow MiniRect(bin)$<br />6:     **for** $pixel$ in $R$ **do**<br/>7:         **if** $pixel$ in $bin$ **then**<br/>8:             $C \leftarrow C + 1, P \leftarrow P +G\left[i\right]\left[pixel\right].value$<br />9:     $M \leftarrow M + \frac{P}{C}$<br />10: $score \leftarrow \frac{M}{g * g}$ |
 
 ## Experiments
 
