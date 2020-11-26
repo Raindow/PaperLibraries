@@ -209,7 +209,7 @@ detailed in Section 3.2 is **rather general**），同时要认识到，这个�
 
 （os：第一段老生常谈，但英语描述让人觉得相对还是有新意的）
 
-底-上文本检测通常在密集文字和任意形状场景文字检测上更加的灵活，为了减轻解决分离间距过小、以及后处理难以优化的问题（To alleviate the two major problems of bottom-up text detection methods: diffi- culty in separating close text instances and non-optimized post- processing），ICG闪亮登场。
+底-上文本检测通常在密集文字和任意形状场景文字检测上更加的灵活，为了减轻解决分离间距过小、以及后处理难以优化的问题（To alleviate the two major problems of bottom-up text detection methods: difficulty in separating close text instances and non-optimized post- processing），ICG闪亮登场。
 
 ICG由两个模块组成，分别解决上述的两个难题。
 
@@ -294,7 +294,7 @@ ICG由两个模块组成，分别解决上述的两个难题。
 
 ![image-20201020095602646](assets/image-20201020095602646.png)
 
-对于一个文本像素$p=(x_p,y_p)$，$Rect_p$代表最符合对应包含$p$的分割四边形的定向矩形。为了求取在$p$处文本组件的真实位置标签$(x_g,y_g,w_g,h_g,\theta_g)$。$\theta_p$是定向矩形$Rect_p$的旋转角度，剩余的四个几何特性，我们先将矩形$Rect_p$以$p=(x_p,y_p)$为旋转中心顺时针旋转$\theta_p$角度，与$p$点处的水平先验框对齐（就是矩形$Rect_p$转为水平，以$p=(x_p,y_p)$为旋转中心）生成$Rect_p'$，如$Fig.4(b)$。然后我们在$Rect_p$中找到与先验框同等大小，竖直方向相同的框（可以这么思考，就是将先验框上移与$Rect_p'$水平重合，如$Fig.4(c)$，如果先验框的水平长度超出$Rect_p'$则对先验框的长度进行修减。最后我们再将$Rect_p'$绕着$p$点逆时针旋转回原方向，$Rect_p'$中的黄色矩阵则是对应着原始的先验框的文本组件区域。对于像素点$p$，根据下面的条件进行选择什么规模的先验框：
+对于一个文本像素$p=(x_p,y_p)$，$Rect_p$代表最符合对应包含$p$的分割四边形的定向矩形。为了求取在$p$处文本组件的真实位置标签$(x_g,y_g,w_g,h_g,\theta_g)$。$\theta_p$是定向矩形$Rect_p$的旋转角度，剩余的四个几何特性，我们先将矩形$Rect_p$以$p=(x_p,y_p)$为旋转中心顺时针旋转$\theta_p$角度，与$p$点处的水平先验框对齐（就是矩形$Rect_p$转为水平，以$p=(x_p,y_p)$为旋转中心）生成$Rect_p'$，如$Fig.4(b)$。然后我们在$Rect_p$中找到与先验框同等大小，竖直方向相同的框（可以这么思考，就是将先验框上移与$Rect_p'$水平重合，如$Fig.4(c)$，如果先验框的水平长度超出$Rect_p'$则对先验框的长度进行修减。最后我们再将$Rect_p'$绕着$p$点逆时针旋转回原方向，$Rect_p'$中的黄色矩阵则是对应着原始的先验框的文本组件区域，所以进行标签生成时对点$p$的gt label则是黄色区域的宽高。对于像素点$p$，根据下面的条件进行选择什么规模的先验框：
 $$
 max(\frac{h_d}{h_g},\frac{h_g}{h_d})\leq1.5
 $$
@@ -334,7 +334,7 @@ $h_d$是先验框的高度，当多个ground-truth文本实例包含$p$时（密
     
     <a name="formula_9"></a>
     $$
-    L_C(s_g,l_g,s_p,l_p)=\frac{L_conf(s_g,s_p,w)+\alpha\times  L_{loc}l_g,l_p,w)}{N_d}
+    L_C(s_g,l_g,s_p,l_p)=\frac{L_{conf}(s_g,s_p,w)+\alpha\times  L_{loc}l_g,l_p,w)}{N_d}
     $$
   
 - 对于吸引排斥检测，
@@ -393,7 +393,7 @@ $$
 
   | **Algorithm 1：**Modified MST for text component grouping based on learned text score s p , attractive w a and repulsive w r links. |
   | ------------------------------------------------------------ |
-  | 1 $Text_Inference(w_a,w_r,s_p,t_s,t_l)$<br />2 // **Initialization**<br />3 $E^+={e=(p_1,p_2)\in E|w_a(e)>t_l}$ **and** $max(s_p(p_1),s_p(p_2))>t_s$；<br />4 $E^-={e=(p_1,p_2)\in E|w_r(e)>t_l}$ **and** $max(s_p(p_1),s_p(p_2))>t_s$；<br />5 $A^+\leftarrow\O,A^-\leftarrow\O$；// set of attractive ( resp. repulsive) links in final MST；<br />6 **for** $e=(p_1,p_2)\in E^+\cup E^-$in **descending** order of $max(w_a,w_r)$ **do**<br />7      **if** $w_a(e)>w_r(e)$ **then**<br />8          **if not** $connect(p_q,p_2)$ and **not** $mutex(p_1,p_2)$ **then**<br />9           // merge $p_1$ and $p_2$ and update mutex constraints；<br />10             $merge(p_1,p_2),A^+\leftarrow A+\cup e$； <br />11    **else if** $w_a(e)\leq w_r(e)$ **then**<br />12         **if not** $connect(p_1,p_2)$ **then**<br />13              $addmutex(p_1,p_2):A^-\leftarrow A^-\cup e$ // add mutex constraint between $p_1$ and $p_2$；<br />14 $D\leftarrow CC_Labeling(A^+)$；//Grouping by connected labeling；<br />15 **return** $D$； |
+  | 1 $Text\_Inference(w_a,w_r,s_p,t_s,t_l)$<br />2 // **Initialization**<br />3 $E^+={e=(p_1,p_2)\in E|w_a(e)>t_l}$ **and** $max(s_p(p_1),s_p(p_2))>t_s$；<br />4 $E^-={e=(p_1,p_2)\in E|w_r(e)>t_l}$ **and** $max(s_p(p_1),s_p(p_2))>t_s$；<br />5 $A^+\leftarrow\O,A^-\leftarrow\O$；// set of attractive ( resp. repulsive) links in final MST；<br />6 **for** $e=(p_1,p_2)\in E^+\cup E^-$in **descending** order of $max(w_a,w_r)$ **do**<br />7      **if** $w_a(e)>w_r(e)$ **then**<br />8          **if not** $connect(p_q,p_2)$ and **not** $mutex(p_1,p_2)$ **then**<br />9           // merge $p_1$ and $p_2$ and update mutex constraints；<br />10             $merge(p_1,p_2),A^+\leftarrow A^+\cup e$； <br />11    **else if** $w_a(e)\leq w_r(e)$ **then**<br />12         **if not** $connect(p_1,p_2)$ **then**<br />13              $addmutex(p_1,p_2):A^-\leftarrow A^-\cup e$ // add mutex constraint between $p_1$ and $p_2$；<br />14 $D\leftarrow GC\_Labeling(A^+)$；// Grouping by connected labeling；<br />15 **return** $D$； |
   
   推论阶段，我们**先**对预选文本组件考察他的文本类别预测分数$s_p$和他的吸引链$w_a$和排斥链$w_r$，$t_s$是类别阈值，$t_l$是吸引/排斥阈值
   
@@ -401,7 +401,7 @@ $$
   
   **接下来**，我们将上述集合中的所有边按每条边的吸引力和排斥力中的最大值（$max(w_a,w_r)$），进行降序排列。
   
-  **然后**对每一条边$e=(p_1,p_2)$（underlying linking edge，没想好怎么理解）,通过比较吸引和排斥力的大小，决定是否将包含点$p_1$和$p_2$的文本组件合并，或是将$p_1$，$p_2$所在组件设置为互斥，进行文本的区分。对两个已被较大排斥力所区分的文本组件将不会被较小的吸引力所影响，反之亦然。（原文：For two text components already having a mutex constraint added by a larger repulsive weight, the current linking edge with a lower attractive weight will not result in a merging process, and vice versa）。对于每次合并，我们也会所有文本组件之间的互斥情况（就像是最小生成树Prim算法中的更新距离矩阵的概念）。
+  **然后**对每一条边$e=(p_1,p_2)$（underlying linking edge，没想好怎么理解）,通过比较吸引和排斥力的大小，决定是否将包含点$p_1$和$p_2$的文本组件合并，或是将$p_1$，$p_2$所在组件设置为互斥，进行文本的区分。对两个已被较大排斥力所区分的文本组件将不会被较小的吸引力所影响，反之亦然。（原文：For two text components already having a mutex constraint added by a larger repulsive weight, the current linking edge with a lower attractive weight will not result in a merging process, and vice versa）。对于每次合并，我们也会更新所有文本组件之间的互斥情况（就像是最小生成树Prim算法中的更新距离矩阵的概念）。
   
   **最终**，根据所选的吸引链$A^+$将所有的文本组件合并成标签图$D$（图解结构）。
   
