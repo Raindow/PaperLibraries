@@ -318,7 +318,7 @@ $h_d$是先验框的高度，当多个ground-truth文本实例包含$p$时（密
 
     $s_p$：predicted text的Score
 
-    $N_d$：以匹配的先验框的数量
+    $N_d$：已匹配的先验框的数量
 
     $\alpha$：超参数，人为设定
 
