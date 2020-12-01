@@ -64,4 +64,4 @@
 
 **self-surpervised pre-trainning**：一般而言，自监督学习的成功得利于两个重要方面：对抗学习以及训练前置任务（pretext tasks）。多数方法中训练视觉表征的目标函数，或是基于重建的损失函数，或是衡量多个视图同时出现的对比损失。对比学习能成为最先进方法的关键在于，正样本对往往由同一图片（或是其他视觉模式）的两个增广视图组成，而负样本对则有不同图片构成。
 
-广义的pretext tasks往往用于学习一个更好的表示方式。比如：图片上色，内容自动编码器，图像修复，关系预测/上下文预测（spatial jigsaw puzzles）或是旋转（区别角度）。这些方法在计算机视觉都只实现了非常有限的效果。直到SimCLR的出现，自监督学习在pretext tasks方面才取得了突破性进展。他参考实例区分pretext task，类似于将每一实例的特征从所有训练集中的其他实例中提取
+广义的pretext tasks往往用于学习一个更好的表示方式。比如：图片上色，内容自动编码器，图像修复，关系预测/上下文预测（spatial jigsaw puzzles）或是旋转（区别角度）。这些方法在计算机视觉都只实现了非常有限的效果。直到SimCLR的出现，自监督学习在pretext tasks方面才取得了突破性进展。他参考实例区分pretext task，类似于将每一实例的特征从所有训练集中的其他实例中提取。图片的不变性从简单的图片变换（比如裁剪，缩放或是图片上色）中获得（Invariances are encoded from low-level image transformations such as cropping, scaling, and color jittering）
