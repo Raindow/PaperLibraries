@@ -38,6 +38,20 @@
   
   breakthrough：突破性的
   
+  utilize：利用
+  
+  be formulated as：规则，用公式表示
+  
+  leverage：利用，影响
+  
+  explicit：明确的，明显的
+  
+  conceptual：概念上的
+  
+  illustration：图解，说明
+  
+  revisit：重游，再访问
+  
   
 
 ## Abstract
@@ -64,4 +78,20 @@
 
 **self-surpervised pre-trainning**：一般而言，自监督学习的成功得利于两个重要方面：对抗学习以及训练前置任务（pretext tasks）。多数方法中训练视觉表征的目标函数，或是基于重建的损失函数，或是衡量多个视图同时出现的对比损失。对比学习能成为最先进方法的关键在于，正样本对往往由同一图片（或是其他视觉模式）的两个增广视图组成，而负样本对则有不同图片构成。
 
-广义的pretext tasks往往用于学习一个更好的表示方式。比如：图片上色，内容自动编码器，图像修复，关系预测/上下文预测（spatial jigsaw puzzles）或是旋转（区别角度）。这些方法在计算机视觉都只实现了非常有限的效果。直到SimCLR的出现，自监督学习在pretext tasks方面才取得了突破性进展。他参考实例区分pretext task，类似于将每一实例的特征从所有训练集中的其他实例中提取。图片的不变性从简单的图片变换（比如裁剪，缩放或是图片上色）中获得（Invariances are encoded from low-level image transformations such as cropping, scaling, and color jittering）
+广义的pretext tasks往往用于学习一个更好的表示方式。比如：图片上色，内容自动编码器，图像修复，关系预测/上下文预测（spatial jigsaw puzzles）或是旋转（区别角度）。这些方法在计算机视觉都只实现了非常有限的效果。直到SimCLR的出现，自监督学习在pretext tasks方面才取得了突破性进展。他参考实例区分pretext task，类似于将每一实例的特征从所有训练集中的其他实例中提取。图片的不变性从简单的图片变换（比如裁剪，缩放或是图片上色）中获得（Invariances are encoded from low-level image transformations such as cropping, scaling, and color jittering）。对比学习和pretext tasks经常一起被用于构成表征学习框架。DenceCL 属于自监督学习模式，我们自然的想让这个框架对于密集预测任务（比如语义分割和物体检测）更加的友好。
+
+**Pre-training for dense prediction tasks**：密集预测任务的预训练，在许多密集预测训练任务中，预训练能够帮助获得更好的结果（还是提及了密集训练任务有哪些，Pre-training has enabled surprising results on many dense prediction tasks, including object detection，重复提及）。这些模型多是基于ImageNet，针对图片级别识别任务的预训练模型。之前的一些研究已经表明了ImageNet预训练任务和密集预测任务在网络架构环境的差别。YOLO9000提出在结合分类数据集和检测数据集，同时训练物体检测器。其他研究证明即使我们在一个非常庞大的分类数据集上进行预训练，其预训练模型对于目标检测的提升仍然相对较小。近期的工作则表明相比于ImageNet预训练模型，使用目标检测数据和标签进行预训练，其结果能实现相当的效果。虽然密集预测任务的监督性预训练在DenseCL之前已经有大量人对其进行研究，但是对于密集预测任务的无监督方法（paradigm：范式，标准方法，流程）却很少有相关的研究工作。
+
+**Visual correspondence**：visual correspondence problem（视觉匹配问题）主要是去极端从同一场景中获得的两张图片的对应像素组成的像素对。这一问题对于很多应用而言非常重要，包括光流法（optical flow），运动恢复结构（SFM，主要用于三维重建），视觉同步定位与建图(visual SLAM)，3D重建（3D reconstruction）等等。视觉匹配可以归结为一个问题从匹配的部分或是对应点中学习到特征的相似性（Visual correspondence could be **formulated** as the problem of learning feature similarity between **matched patches** or **points**）。近阶段，大量基于卷积神经网络的方法出现，或是采用监督性学习法，或是采用无监督性学习方法，来度量图片中对应部分的相似性。前者的工作多利用明确的监督性学习针对特定的应用去学习匹配关系。DenseCL则是学习能够在多个密集预测任务中都能够有用的通用表征。
+
+## Method
+
+### Background
+
+在自监督表征学习发展过程中，其最具突破性的工作是MoCo-v1/v2和SimCLR，两者都利用无监督对比学习从无标签数据中学习到好的表征。我们将抽象出一个概念流程进而对当前最先进的方法进行一个简短的介绍。
+
+**Pipeline**：对于一个没有标签的数据集，会先经过一个实例区分的pretext task来将训练集中的每一张图片的特征和其他图片特征区分出来。而每一张图片会通过随机的数据增强方式（不确定这样翻译是否合适，data augmentation）获得不同的视图。不同的视图会被喂入到编码器中提取到能够编码表示整个视图的特征。编码器有两个核心，主干网络和映射头。映射头连接在主干网络上，主干网络是预训练后需要用于其他任务的模型，而映射头则是会在预训练结束被遗弃。每一对视图可以由同一编码器编码，也可以分别由一个编码器和它动量更新后的编码器编码。编码器通过对比编码器是通过优化下面描述的一个两两对比相似度（不相似度）损失训练。整体流程如下：
+
+![image-20201202195451686](assets/image-20201202195451686.png)
+
+**Loss function**：
