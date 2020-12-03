@@ -53,6 +53,8 @@
   revisit：重游，再访问
   
   instantiate：举例说明，实例化
+  
+  identical：同一的，相同的
 
 ## Abstract
 
@@ -108,4 +110,11 @@ $\tau$：温度超参数
 
 他将当前存在的框架推广并概括为密集的规范流程。相较于Section 3.1中提及的规范流程，主要的区别在于编码器和损失函数。使用主干网络ResNet或者其他卷积神经网络提取输入视图的特征，然后前向传播给后续的投影头。投影头由两个并行的分支组成，分别是全局投影头和密集投影头。
 
-全局投影头能够用现在已知的投影头来替换，他负责将密集特征图转换为全局特征向量（which takes the dense feature maps as input and generates a global feature vector for each view），举例而言，假设投影头由一个全局池化层和一个包含两个全连接层，全连接层中间有ReLU层的MLP（多层感知机）组成。
+全局投影头能够用现在已知的投影头来替换，他负责将密集特征图转换为全局特征向量（which takes the dense feature maps as input and generates a global feature vector for each view），举例而言，假设投影头由一个全局池化层和一个包含两个全连接层，全连接层中间有ReLU层的MLP（多层感知机）组成，而密集预测头则能够使用相同输入但输出密集特征向量。
+
+特别的，全局池化层被移除，与此同时MLP改为同一的$1\times1$卷积层。事实上，密集预测头有和全局预测头相同数量的参数。在全局特征和局部特征层面上，主干网络和两个并行预测头，通过优化联结对对比相似（不相似）损失率（joint pairwise contrastive
+(dis)similarity loss）实现端到端的训练。
+
+### 3.3. Dense Contrastive Learning
+
+我们在原始的对比学习损失函数基础，推广到密集规范流程。我们为每一个编码的查询定义了一系列编码键$\left\{t_0, t_1, ...\right\}$
