@@ -55,6 +55,8 @@
   instantiate：举例说明，实例化
   
   identical：同一的，相同的
+  
+  latency ：延迟
 
 ## Abstract
 
@@ -98,7 +100,7 @@
 
 **Loss function**：根据Moco的思想原则，对比学习可以视为字典查找任务。对每一个编码的查询$q$，都有一系列编码的键$\left\{k_0,k_1,...\right\}$，其中一个正键$k_+$对应着一个查询$q$。编码的查询和键有不同的视图产生。对于编码查询$q$，它的正键$k_+$是对同一图像的不同视图进行编码，而负键（negative keys）则是对不同图像的视图=进行编码。对比损失函数InfoNCE如下，
 $$
-\mathcal{L_q}=-log\frac{exp(q{\cdot}k_+/\tau)}{exp(q{\cdot}k_+)+\sum_{k_\_}exp(q{\cdot}k_\_/\tau)}
+\mathcal{L_q}=-log\frac{exp(q{\cdot}k_+/\tau)}{exp(q{\cdot}k_+)+\sum_{k_\_}exp(q{\cdot}k_-/\tau)}
 $$
 $\tau$：温度超参数
 
@@ -117,4 +119,45 @@ $\tau$：温度超参数
 
 ### 3.3. Dense Contrastive Learning
 
-我们在原始的对比学习损失函数基础，推广到密集规范流程。我们为每一个编码的查询定义了一系列编码键$\left\{t_0, t_1, ...\right\}$
+我们在原始的对比学习损失函数基础，推广到密集规范流程。我们为每一个编码的查询定义了一系列编码键$\left\{t_0, t_1, ...\right\}$。但是每一个查询不在表示整个视图，而是代表视图的部分，他对应着由密集预测头产生的$S_h \times S_w$个特征向量中的一个，$S_h$和$S_w$代表着生成的密集特征图的空间大小。
+
+虽然事实上$S_h$和$S_w$可以不同，但是为了方便解释，我们做如下设定：$S_h=S_w=S$。每一个负键$t_-$来自于不同图像的特征向量的池化结果，而正键$t_+$则是通过某视图的特征向量和来自于同一图片另一个不同的视图的$S^2$个特征向量中的对应向量计算所得。
+
+此刻，我们假定能够轻易的找到正键$t_+$，其具体过程将在下一节中进行阐述。
+
+密集对比损失率定义如下：
+$$
+\mathcal{L}_r=\frac{1}{S^2}\sum_s-log\frac{exp(r^s{\cdot}t_+^s/\tau)}{exp(r^s{\cdot}t_+^s)+\sum_{t_-^s}exp(r^s{\cdot}t_-^s/\tau)}
+$$
+$r^s$：$S^2$个查询中的第$s$个结果（where $r^s$ denotes the $s^{th}$ out of $S^2$ encoded queries）
+
+总而言之，DenseCL的损失率可以视为：
+$$
+\mathcal{L}=(1-\lambda)\mathcal{L}_q+{\lambda}\mathcal{L}_r
+$$
+
+$\lambda$代表两部分的平衡系数，在实验中它被设置为0.5
+
+### 3.4. Dense Correspondence across Views
+
+我们提取出同一输入图像的两不同视图之间的对应关系。对于每一个视图，主干网络从密集预测头产生的密集特征向量$\Theta\in\mathbb{R}^{S_h{\times}S_w{\times}E}$提取出特征图$F \in \mathbb{R}^{H{\times}W{\times}K}$。
+
+$S_h$和$S_w$可以是不同的，但我们为了方便讲解，选用$S_h = S_h = S$。对应关系根据两个视图的密集特征向量$\Theta_1$和$\Theta_2$。我们利用主干网络输出的特征图$F_1$和$F_2$来匹配$\Theta_1$和$\Theta_2$。特征层$F_1$和$F_2$首先经过自适应平均池化下采样调整为$S{\times}S$大小，然后计算计算两者的余弦相似矩阵$\Delta \in \mathbb{R}^{S^2 {\times} S^2}$。匹配规则就是，视图中每一个特征向量都与另一视图中最相似者进行匹配。特别地，对于$\Theta_1$中的$S^2$特征向量，沿最后一个维度对相似矩阵应用$argmax$运算获得与$\Theta_2$的对应关系，其过程如下：
+$$
+c_i={\mathop{\arg\max}_j}sim(f_i,f_j'),
+$$
+$f_i$：主干特征图$F_1$的第$i$个特征向量
+
+$f_i'$：主干特征图$F_2$的第$j$个特征向量
+
+$sim(u,v)$：余弦相似度，$\ell_2$归一化后的$u,v$的点积，计算方式
+$$
+sim(u,v)=\frac{u^{\top}v}{{\left\|u\right\|}{\left\|v\right\|}}
+$$
+$c_i$：$\Theta_1$的$S^2$特征向量中第$i$个向量与$\Theta_2$中匹配结果，即$\Theta_1$中的$i^{th}$向量与$\Theta_2$中的$c_i^{th}$向量相匹配。
+
+具体的匹配过程能够利用矩阵运算进行加速，因此引入的计算延迟损耗可以忽略不计。
+
+当$S=1$时，由于两个全局视图间天然的存在唯一的对应关系，因此，DenseCL就退化为Section 3.1中提及的全局匹配
+
+根据提取的对应关系，我们能够轻松的在密集对比学习中找到每个查询的正键$k_+$。
