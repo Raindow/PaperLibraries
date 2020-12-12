@@ -380,7 +380,7 @@ $y_s$是标签值，$p_s$则是预测值
 
 | **<a name="RPS-ROI-Algorithm">Algorithm 1</a>** Rotated Position-Sensitive ROI Average Pooling |
 | ------------------------------------------------------------ |
-| **Input:** rotated bounding box $B$，$g × g$ regular grid $G$, Segmentation maps $S$<br />1: Generating Bins by spitting $B$ with $G$.<br />2: $M\leftarrow0, i\leftarrow0$<br />3: **for** $i$ in $range(g \times g)$ **do**<br />4:    $bin \leftarrow Bins\left[i\right], C \leftarrow 0, P\leftarrow 0,$<br /> 5:     $R \leftarrow MiniRect(bin)$<br />6:     **for** $pixel$ in $R$ **do**<br/>7:         **if** $pixel$ in $bin$ **then**<br/>8:             $C \leftarrow C + 1, P \leftarrow P +G\left[i\right]\left[pixel\right].value$<br />9:     $M \leftarrow M + \frac{P}{C}$<br />10: $score \leftarrow \frac{M}{g * g}$ |
+| **Input:** rotated bounding box $B$，$g × g$ regular grid $G$, Segmentation maps $S$<br />1: Generating Bins by spitting $B$ with $G$.<br />2: $M\leftarrow0, i\leftarrow0$<br />3: **for** $i$ in $range(g \times g)$ **do**<br />4:    $bin \leftarrow Bins\left[i\right], C \leftarrow 0, P\leftarrow 0,$<br /> 5:   $R \leftarrow MiniRect(bin)$<br />6:    **for** $pixel$ in $R$ **do**<br/>7:        **if** $pixel$ in $bin$ **then**<br/>8:             $C \leftarrow C + 1, P \leftarrow P +G\left[i\right]\left[pixel\right].value$<br />9:     $M \leftarrow M + \frac{P}{C}$<br />10: $score \leftarrow \frac{M}{g * g}$ |
 
 ## Experiments
 

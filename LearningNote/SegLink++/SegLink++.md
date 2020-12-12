@@ -334,7 +334,7 @@ $h_d$是先验框的高度，当多个ground-truth文本实例包含$p$时（密
     
     <a name="formula_9"></a>
     $$
-    L_C(s_g,l_g,s_p,l_p)=\frac{L_{conf}(s_g,s_p,w)+\alpha\times  L_{loc}l_g,l_p,w)}{N_d}
+    L_C(s_g,l_g,s_p,l_p)=\frac{L_{conf}(s_g,s_p,w)+\alpha\times L_{loc}(l_g,l_p,w)}{N_d}
     $$
   
 - 对于吸引排斥检测，
