@@ -33,6 +33,8 @@
   utilize：利用
   
   resolution：分辨率，解决
+  
+  topology：拓扑学
 
 ## ABSTRACT
 
@@ -123,4 +125,28 @@ Section 5，paper concludes
 
   这可以看作是对$7\times7$普通滤波器进行正则化，迫使它们通过$3×3$滤波器进行分解(在两者之间注入非线性)。
 
-而$C$网络中的$1×1$卷积层则是一种增加决策函数非线性特性而不影响卷积层感受野的方法。
+而$C$网络中的$1×1$卷积层则是一种增加决策函数非线性特性而不影响卷积层感受野的方法。尽管在我们的例子中$1\times1$卷积的本质是对同一维空间的线性投影（输入和输出的通道数相同），但是向整流函数（激活函数）引入了额外的非线性。重点可以注意“Network in network”中对于$1\times1$卷积的应用。
+
+与其他工作的一些比较：
+
+- 小型卷积核最早被用于“high performance convolutional neural networks for image classification”，但他们的网络中明显深度不如我们，同时他们并没有在大规模的ILSVRC数据集上进行评测。
+- “Multi-digit number recognition from street view imagery using deep convolutional neural networks”在街景数字的识别任务中使用了深度卷积网络（$11$层权重层），其结果显示出深度的增长确实引起了更好的表现结果。
+- “Going deeper with convolutions”中的GoogleNet作为ILSVRC-2014中表现最好的网络，虽然与我们的工作是相互独立的，但是却有着共同点，都是基于非常深层的卷积网络（$22$权重层）和小型的卷积核（除了$3\times3$大小的卷积核，还有$1\times1$和$5\times5$）。然鹅，他们的网络拓扑结构远比我们的复杂，同时为了减少计算量，第一层特征图的空间分辨率减少的更加多，更加激进。
+
+如Section 4.5中所呈现的一样，我们的模型在单网络分类精度上远好于“Going deeper with convolutions”的网络
+
+## 3 CLASSIFICATION FRAMEWORK
+
+前一章节中，我们展示了我们网络的配置细节。本章节我们将详细描述分类网络的训练和评价过程细节。
+
+### 3.1 TRAINING
+
+卷积网络的训练过程基本按照“ImageNet classification with deep convolutional neural networks”提及的流程进行（除了从多尺度训练图片中采样取得输入图片的过程，具体将在后面阐述），也就是说训练通过基于后向传播的小批量动量梯度下降优化多项logistic回归（逻辑斯蒂回归）。
+
+- 批大小设置为256
+
+- 动量设置为0.9
+
+- 训练通过权重衰减（$L_2$惩罚系数设置为$5\cdot10^{-4}$）和前两层全连接层的`dropout`正则化（`dropout`的比率为$0.5$）进行正则化（这里的翻译有点问题，姑且先看着，The training was regularised by weight decay (the $L_2$ penalty multiplier set to $5\cdot10^{-4}$) and `dropout `regularisation for the first two fully-connected layers (`dropout `ratio set to $0.5$).）
+- 学习率初始化为$10^{-2}$，然后
+
