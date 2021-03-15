@@ -53,6 +53,64 @@
   revolve around：围绕，围绕某一话题、方法
   
   intrinsically：本质上
+  
+  persistent homology：持久同源性
+  
+  linear interpolation：线性插值
+  
+  piecewise-linear：分段线性的
+  
+  mainfold：流型
+  
+  handle：手柄，拓扑学鞍点？
+  
+  identical：一样的
+  
+  magnify：放大
+  
+  subtle：精细的
+  
+  structural：结构上的
+  
+  holistic：整体上的
+  
+  concise：整洁的
+  
+  diagram：图
+  
+  filtration：过滤（n.）
+  
+  monotonically：单调地
+  
+  induce：诱发
+  
+  finite：有限的
+  
+  formalize：形式化
+  
+  abuse：滥用
+  
+  notation：符号
+  
+  slightly：轻微地
+  
+  bijections：双射，双方映射
+  
+  Intuitively：直观的
+  
+  diagonal：对角线
+  
+  diagram：图
+  
+  overlay：覆盖
+  
+  theorem：定理
+  
+  correctness：正确性
+  
+  straightforward：简单的，坦率地
+  
+  
 
 ## Abstract
 
