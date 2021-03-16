@@ -110,6 +110,10 @@
   
   straightforward：简单的，坦率地
   
+  uniquely：独特地
+  
+  
+  
   
 
 ## Abstract
