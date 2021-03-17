@@ -112,7 +112,21 @@
   
   uniquely：独特地
   
+  intuition：直觉
   
+  agnostic：无关的，不可知的
+  
+  trivial：不重要的，琐碎的
+  
+  equivalent：等价的，相当的
+  
+  mutual：相互的
+  
+  empirical：经验性的
+  
+  incorporate：包含，吸收
+  
+  plot：绘制
   
   
 
