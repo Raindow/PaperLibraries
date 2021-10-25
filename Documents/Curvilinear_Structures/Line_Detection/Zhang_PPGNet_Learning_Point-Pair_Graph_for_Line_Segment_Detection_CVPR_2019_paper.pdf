@@ -40271,3 +40271,367 @@ trailer
 startxref
 3662895
 %%EOF
+258 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+257 0 obj
+<</BBox [50.112 443.259 286.365 476.195] /Filter /FlateDecode /FormType 1 /Length 85 /Matrix [1 -0 -0 1 -50.112 -443.259] /Resources 258 0 R /Subtype /Form /Type /XObject >>stream
+xœmŠ±€@ûŸ"Dq>	ï€†õ‰¨(h|’ï f&¦,öJ®sà=ïRÑ"j{¹,¡šw·c¤)à™êñYê9ÿŠ˜m(XKIû·\=
+endstream
+endobj
+
+256 0 obj
+<</ProcSet [/PDF] /XObject <</Form1 257 0 R >> >>
+endobj
+
+255 0 obj
+<</BBox [0 0 236.253 32.936] /FormType 1 /Group <</S /Transparency >> /Length 10 /Resources 256 0 R /Subtype /Form /Type /XObject >>stream
+/Form1 Do
+
+endstream
+endobj
+
+259 0 obj
+<</AIS false /BM /Multiply /Type /ExtGState >>
+endobj
+
+254 0 obj
+<</ExtGState <</R1 259 0 R >> /ProcSet [/PDF] /XObject <</Form1 255 0 R >> >>
+endobj
+
+253 0 obj
+<</BBox [0 0 236.253 32.936] /FormType 1 /Length 17 /Resources 254 0 R /Subtype /Form /Type /XObject >>stream
+/R1 gs
+/Form1 Do
+
+endstream
+endobj
+
+252 0 obj
+<</AP <</N 253 0 R >> /BS <</W 0 >> /C [1 0.969 0.416] /CreationDate (D:20211025105359+08'00') /F 4 /M (D:20211025105359+08'00') /NM (7E6ED7DF-49E9-468A-BE51-488323EEEC10) /P 4 0 R /QuadPoints [199.169 476.195 286.365 476.195 199.169 467.169 286.365 467.169 50.112 464.240 286.365 464.240 50.112 455.214 286.365 455.214 50.112 452.285 239.102 452.285 50.112 443.259 239.102 443.259] /Rect [50.112 443.259 286.365 476.195] /Subtype /Highlight /T (şÿ–Hmûv„ i P a d) /Type /Annot >>
+endobj
+
+251 0 obj
+[243 0 R 235 0 R 252 0 R]
+endobj
+
+2 0 obj
+<</Author (Ziheng Zhang,  Zhengxin Li,  Ning Bi,  Jia Zheng,  Jinlei Wang,  Kun Huang,  Weixin Luo,  Yanyu Xu,  Shenghua Gao) /ModDate (D:20211025105533+08'00') /Producer (PyPDF2) /Subject (IEEE Conference on Computer Vision and Pattern Recognition) /Title (PPGNet: Learning Point-Pair Graph for Line Segment Detection) >>
+endobj
+
+3 0 obj
+<</Annots 211 0 R /Contents 14 0 R /MediaBox [0 0 612 792] /Parent 1 0 R /Resources <</ExtGState <</R7 17 0 R /a0 <</CA 1 /ca 1 >> /a1 <</CA 0.5 /ca 0.5 >> >> /Font <</F1 30 0 R /F2 18 0 R /R10 22 0 R /R12 26 0 R /R14 31 0 R /R16 35 0 R /R18 38 0 R /R20 42 0 R /R22 45 0 R /R8 19 0 R >> /ProcSet [/ImageC /Text /PDF /ImageI /ImageB] /XObject <</x6 15 0 R >> >> /Rotate 0 /Type /Page >>
+endobj
+
+4 0 obj
+<</Annots 251 0 R /Contents 49 0 R /MediaBox [0 0 612 792] /Parent 1 0 R /Resources <</ExtGState <</R7 17 0 R >> /Font <</F1 50 0 R /F2 51 0 R /R10 22 0 R /R18 38 0 R /R8 19 0 R >> /ProcSet [/ImageC /Text /PDF /ImageI /ImageB] >> /Rotate 0 /Type /Page >>
+endobj
+
+203 0 obj
+<</AP <</N 204 0 R >> /BS <</W 0 >> /C [1 0.969 0.416] /CreationDate (D:20211025102423+08'00') /F 4 /M (D:20211025102434+08'00') /NM (DE3EA8B2-1CFE-425F-947F-DB7DFCEC7583) /P 3 0 R /QuadPoints [180.058 428.667 286.364 428.667 180.058 419.801 286.364 419.801 50.112 416.712 82.867 416.712 50.112 407.846 82.867 407.846] /Rect [50.112 407.846 286.364 428.667] /Subtype /Highlight /T (şÿ–Hmûv„ i P a d) /Type /Annot >>
+endobj
+
+204 0 obj
+<</BBox [0 0 236.252 20.822] /FormType 1 /Length 17 /Resources 205 0 R /Subtype /Form /Type /XObject >>stream
+/R1 gs
+/Form1 Do
+
+endstream
+endobj
+
+205 0 obj
+<</ExtGState <</R1 210 0 R >> /ProcSet [/PDF] /XObject <</Form1 206 0 R >> >>
+endobj
+
+206 0 obj
+<</BBox [0 0 236.252 20.822] /FormType 1 /Group <</S /Transparency >> /Length 10 /Resources 207 0 R /Subtype /Form /Type /XObject >>stream
+/Form1 Do
+
+endstream
+endobj
+
+207 0 obj
+<</ProcSet [/PDF] /XObject <</Form1 208 0 R >> >>
+endobj
+
+208 0 obj
+<</BBox [50.112 407.846 286.364 428.667] /Filter /FlateDecode /FormType 1 /Length 78 /Matrix [1 -0 -0 1 -50.112 -407.846] /Resources 209 0 R /Subtype /Form /Type /XObject >>stream
+xœMÊ±€0ÁÜU¨‚Ÿ[’å‚€Ü	íÃ‘\°sI#V®·®´}5}x7Á(s-ebb0­P9mílAHİœåi£cFü‡©åg
+endstream
+endobj
+
+209 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+210 0 obj
+<</AIS false /BM /Multiply /Type /ExtGState >>
+endobj
+
+211 0 obj
+[203 0 R 212 0 R 216 0 R 224 0 R 220 0 R 231 0 R 215 0 R 219 0 R 227 0 R 230 0 R 234 0 R]
+endobj
+
+212 0 obj
+<</AP <</N 213 0 R >> /BS <</W 0 >> /C [1 0.251 0.082] /Contents (şÿY'‘ÏT\(v„ˆh—b) /CreationDate (D:20211025102827+08'00') /F 4 /M (D:20211025102903+08'00') /NM (CD6ACFF2-3D3A-4706-B75B-B650EEE46047) /P 3 0 R /Popup 215 0 R /QuadPoints [107.059 227.102 239.905 227.102 107.059 218.076 239.905 218.076] /RC (şÿ < ? x m l   v e r s i o n = ' 1 . 0 ' ? > < b o d y   x m l n s = ' h t t p : / / w w w . w 3 . o r g / 1 9 9 9 / x h t m l '   x m l n s : x f a = ' h t t p : / / w w w . x f a . o r g / s c h e m a / x f a - d a t a / 1 . 0 / '   s t y l e = ' f o n t - f a m i l y : H e l v e t i c a ; f o n t - s i z e : 1 6 p t ' > < p   d i r = ' l t r ' > < s p a n   s t y l e = ' c o l o r : # 2 2 2 2 2 2 ; f o n t - f a m i l y : . P i n g F a n g   S C ; f o n t - s i z e : 1 6 . 0 p t ' >Y'‘ÏT\(v„ˆh—b < / s p a n > < / p > < / b o d y >) /Rect [107.059 218.076 239.905 227.102] /Subtype /Underline /T (şÿ–Hmûv„ i P a d) /Type /Annot >>
+endobj
+
+213 0 obj
+<</BBox [107.059 218.076 239.905 227.102] /Filter /FlateDecode /FormType 1 /Length 65 /Matrix [1 -0 -0 1 -107.059 -218.076] /Resources 214 0 R /Subtype /Form /Type /XObject >>stream
+xœ3Ô300P0Ğ325’F
+Aî\z†F
+å\†æz¦–
+F†z&@©\.#cK=KS¸HW0 ±}á
+endstream
+endobj
+
+214 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+215 0 obj
+<</F 4 /Open false /Parent 212 0 R /Rect [432 107.102 612 227.102] /Subtype /Popup /Type /Annot >>
+endobj
+
+216 0 obj
+<</AP <</N 217 0 R >> /BS <</W 0 >> /C [1 0.251 0.082] /Contents (şÿQàOUVşQC) /CreationDate (D:20211025103035+08'00') /F 4 /M (D:20211025103049+08'00') /NM (63E730EF-D46C-46CC-8840-C4470EE6B069) /P 3 0 R /Popup 219 0 R /QuadPoints [138.080 179.281 218.657 179.281 138.080 170.255 218.657 170.255] /RC (şÿ < ? x m l   v e r s i o n = ' 1 . 0 ' ? > < b o d y   x m l n s = ' h t t p : / / w w w . w 3 . o r g / 1 9 9 9 / x h t m l '   x m l n s : x f a = ' h t t p : / / w w w . x f a . o r g / s c h e m a / x f a - d a t a / 1 . 0 / '   s t y l e = ' f o n t - f a m i l y : H e l v e t i c a ; f o n t - s i z e : 1 6 p t ' > < p   d i r = ' l t r ' > < s p a n   s t y l e = ' c o l o r : # 2 2 2 2 2 2 ; f o n t - f a m i l y : . P i n g F a n g   S C ; f o n t - s i z e : 1 6 . 0 p t ' >QàOUVşQC < / s p a n > < / p > < / b o d y >) /Rect [138.080 170.255 218.657 179.281] /Subtype /Underline /T (şÿ–Hmûv„ i P a d) /Type /Annot >>
+endobj
+
+217 0 obj
+<</BBox [138.080 170.255 218.657 179.281] /Filter /FlateDecode /FormType 1 /Length 64 /Matrix [1 -0 -0 1 -138.080 -170.255] /Resources 218 0 R /Subtype /Form /Type /XObject >>stream
+xœ=È±€0À^ShŸd.7 ‡5HÍú¤¢ùâ’¨Èá­:yP´“/|ô.ÑSQe.¤;jÌÜø °ÎØ
+endstream
+endobj
+
+218 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+219 0 obj
+<</F 4 /Open false /Parent 216 0 R /Rect [432 59.281 612 179.281] /Subtype /Popup /Type /Annot >>
+endobj
+
+220 0 obj
+<</AP <</N 228 0 R >> /BS <</W 0 >> /C [1 0.251 0.082] /Contents (şÿT‚rv„) /CreationDate (D:20211025104159+08'00') /F 4 /M (D:20211025104210+08'00') /NM (50DA17DC-A0CD-41D5-8776-415F16056355) /P 3 0 R /Popup 230 0 R /QuadPoints [445.109 354.347 507.082 354.347 445.109 345.321 507.082 345.321] /RC (şÿ < ? x m l   v e r s i o n = ' 1 . 0 ' ? > < b o d y   x m l n s = ' h t t p : / / w w w . w 3 . o r g / 1 9 9 9 / x h t m l '   x m l n s : x f a = ' h t t p : / / w w w . x f a . o r g / s c h e m a / x f a - d a t a / 1 . 0 / '   s t y l e = ' f o n t - f a m i l y : H e l v e t i c a ; f o n t - s i z e : 1 6 p t ' > < p   d i r = ' l t r ' > < s p a n   s t y l e = ' c o l o r : # 2 2 2 2 2 2 ; f o n t - f a m i l y : . P i n g F a n g   S C ; f o n t - s i z e : 1 6 . 0 p t ' >T‚rv„ < / s p a n > < / p > < / b o d y >) /Rect [445.109 345.321 507.082 354.347] /Subtype /Underline /T (şÿ–Hmûv„ i P a d) /Type /Annot >>
+endobj
+
+222 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+223 0 obj
+<</F 4 /Open false /Parent 220 0 R /Rect [432 234.347 612 354.347] /Subtype /Popup /Type /Annot >>
+endobj
+
+224 0 obj
+<</AP <</N 225 0 R >> /BS <</W 0 >> /C [1 0.251 0.082] /Contents (şÿQIN®ÿqgf) /CreationDate (D:20211025104111+08'00') /F 4 /M (D:20211025104128+08'00') /NM (2D82F783-9E35-4AC8-8802-66C340959F88) /P 3 0 R /Popup 227 0 R /QuadPoints [346.861 378.257 394.604 378.257 346.861 369.231 394.604 369.231] /RC (şÿ < ? x m l   v e r s i o n = ' 1 . 0 ' ? > < b o d y   x m l n s = ' h t t p : / / w w w . w 3 . o r g / 1 9 9 9 / x h t m l '   x m l n s : x f a = ' h t t p : / / w w w . x f a . o r g / s c h e m a / x f a - d a t a / 1 . 0 / '   s t y l e = ' f o n t - f a m i l y : H e l v e t i c a ; f o n t - s i z e : 1 6 p t ' > < p   d i r = ' l t r ' > < s p a n   s t y l e = ' c o l o r : # 2 2 2 2 2 2 ; f o n t - f a m i l y : . P i n g F a n g   S C ; f o n t - s i z e : 1 6 . 0 p t ' >QIN®ÿqgf < / s p a n > < / p > < / b o d y >) /Rect [346.861 369.231 394.604 378.257] /Subtype /Underline /T (şÿ–Hmûv„ i P a d) /Type /Annot >>
+endobj
+
+225 0 obj
+<</BBox [346.861 369.231 394.604 378.257] /Filter /FlateDecode /FormType 1 /Length 65 /Matrix [1 -0 -0 1 -346.861 -369.231] /Resources 226 0 R /Subtype /Form /Type /XObject >>stream
+xœ=È¹€0À\U¨‚›Óc!W@Û€ØíCD²ÁH*áÃ>Ù®×)D›ë–ÈB—iÔDÅ¡ÄLóŸ[–¼³ª÷
+endstream
+endobj
+
+226 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+227 0 obj
+<</F 4 /Open false /Parent 224 0 R /Rect [432 258.257 612 378.257] /Subtype /Popup /Type /Annot >>
+endobj
+
+228 0 obj
+<</BBox [445.109 345.321 507.082 354.347] /Filter /FlateDecode /FormType 1 /Length 63 /Matrix [1 -0 -0 1 -445.109 -345.321] /Resources 229 0 R /Subtype /Form /Type /XObject >>stream
+xœ3Ô300P0Ğ325’F
+Aî\z†F
+å\&&¦z†–
+Æ@ÚÜÈ\!—ËÔÀ¬&’ÃÌ ±Áâ
+endstream
+endobj
+
+229 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+230 0 obj
+<</F 4 /Open false /Parent 220 0 R /Rect [432 234.347 612 354.347] /Subtype /Popup /Type /Annot >>
+endobj
+
+231 0 obj
+<</AP <</N 232 0 R >> /BS <</W 0 >> /C [1 0.251 0.082] /Contents (şÿff—v„ÿg&€çv„) /CreationDate (D:20211025104250+08'00') /F 4 /M (D:20211025104303+08'00') /NM (DD0118EB-9659-4C28-807F-5B998E7A3CAC) /P 3 0 R /Popup 234 0 R /QuadPoints [363.392 318.481 394.221 318.481 363.392 309.455 394.221 309.455] /RC (şÿ < ? x m l   v e r s i o n = ' 1 . 0 ' ? > < b o d y   x m l n s = ' h t t p : / / w w w . w 3 . o r g / 1 9 9 9 / x h t m l '   x m l n s : x f a = ' h t t p : / / w w w . x f a . o r g / s c h e m a / x f a - d a t a / 1 . 0 / '   s t y l e = ' f o n t - f a m i l y : H e l v e t i c a ; f o n t - s i z e : 1 6 p t ' > < p   d i r = ' l t r ' > < s p a n   s t y l e = ' c o l o r : # 2 2 2 2 2 2 ; f o n t - f a m i l y : . P i n g F a n g   S C ; f o n t - s i z e : 1 6 . 0 p t ' >ff—v„ÿg&€çv„ < / s p a n > < / p > < / b o d y >) /Rect [363.392 309.455 394.221 318.481] /Subtype /Underline /T (şÿ–Hmûv„ i P a d) /Type /Annot >>
+endobj
+
+232 0 obj
+<</BBox [363.392 309.455 394.221 318.481] /Filter /FlateDecode /FormType 1 /Length 65 /Matrix [1 -0 -0 1 -363.392 -309.455] /Resources 233 0 R /Subtype /Form /Type /XObject >>stream
+xœ=È±€0ÀŞSx,CÎ€ÖuÖÍ é„ÎødÉïËˆ
+ù²‰ly²Q#üµìRü3í±²â
+endstream
+endobj
+
+233 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+234 0 obj
+<</F 4 /Open false /Parent 231 0 R /Rect [432 198.481 612 318.481] /Subtype /Popup /Type /Annot >>
+endobj
+
+235 0 obj
+<</AP <</N 236 0 R >> /BS <</W 0 >> /C [1 0.969 0.416] /CreationDate (D:20211025105117+08'00') /F 4 /M (D:20211025105117+08'00') /NM (3C4150A0-99B7-4F77-8C28-49E358B65991) /P 4 0 R /QuadPoints [188.151 572.633 286.365 572.633 188.151 563.607 286.365 563.607 50.112 560.678 156.136 560.678 50.112 551.652 156.136 551.652] /Rect [50.112 551.652 286.365 572.633] /Subtype /Highlight /T (şÿ–Hmûv„ i P a d) /Type /Annot >>
+endobj
+
+236 0 obj
+<</BBox [0 0 236.253 20.981] /FormType 1 /Length 17 /Resources 237 0 R /Subtype /Form /Type /XObject >>stream
+/R1 gs
+/Form1 Do
+
+endstream
+endobj
+
+237 0 obj
+<</ExtGState <</R1 242 0 R >> /ProcSet [/PDF] /XObject <</Form1 238 0 R >> >>
+endobj
+
+238 0 obj
+<</BBox [0 0 236.253 20.981] /FormType 1 /Group <</S /Transparency >> /Length 10 /Resources 239 0 R /Subtype /Form /Type /XObject >>stream
+/Form1 Do
+
+endstream
+endobj
+
+239 0 obj
+<</ProcSet [/PDF] /XObject <</Form1 240 0 R >> >>
+endobj
+
+240 0 obj
+<</BBox [50.112 551.652 286.365 572.633] /Filter /FlateDecode /FormType 1 /Length 75 /Matrix [1 -0 -0 1 -50.112 -551.652] /Resources 241 0 R /Subtype /Form /Type /XObject >>stream
+xœUŠ±€0ÄzOá	şşMlâ€†õÉÑÑ¨$t¢«‡ÊïËôÉÇ4'”ò¬Åİ{"4¼ÁXßa§%!…g
+•áb­ö;^ª,O
+endstream
+endobj
+
+241 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+242 0 obj
+<</AIS false /BM /Multiply /Type /ExtGState >>
+endobj
+
+243 0 obj
+<</AP <</N 244 0 R >> /BS <</W 0 >> /C [1 0.969 0.416] /CreationDate (D:20211025105006+08'00') /F 4 /M (D:20211025105006+08'00') /NM (FC6CD86B-7657-48A7-99EE-9F2D91FDC268) /P 4 0 R /QuadPoints [50.112 680.229 286.364 680.229 50.112 671.203 286.364 671.203 50.112 668.274 287.605 668.274 50.112 659.248 287.605 659.248 50.112 656.319 136.232 656.319 50.112 647.293 136.232 647.293] /Rect [50.112 647.293 287.605 680.229] /Subtype /Highlight /T (şÿ–Hmûv„ i P a d) /Type /Annot >>
+endobj
+
+244 0 obj
+<</BBox [0 0 237.493 32.936] /FormType 1 /Length 17 /Resources 245 0 R /Subtype /Form /Type /XObject >>stream
+/R1 gs
+/Form1 Do
+
+endstream
+endobj
+
+245 0 obj
+<</ExtGState <</R1 250 0 R >> /ProcSet [/PDF] /XObject <</Form1 246 0 R >> >>
+endobj
+
+246 0 obj
+<</BBox [0 0 237.493 32.936] /FormType 1 /Group <</S /Transparency >> /Length 10 /Resources 247 0 R /Subtype /Form /Type /XObject >>stream
+/Form1 Do
+
+endstream
+endobj
+
+247 0 obj
+<</ProcSet [/PDF] /XObject <</Form1 248 0 R >> >>
+endobj
+
+248 0 obj
+<</BBox [50.112 647.293 287.605 680.229] /Filter /FlateDecode /FormType 1 /Length 85 /Matrix [1 -0 -0 1 -50.112 -647.293] /Resources 249 0 R /Subtype /Form /Type /XObject >>stream
+xœmÊ±€0CÑ>Sx­8N<ĞÓ°>>
+‚FÅ×3¨ª(2²Ö-ä<š=ñjCaF‰i vapPÊr[Û_1ôUbÂ³ÿ	Ÿ`=+`Ô/¸Ûà
+endstream
+endobj
+
+249 0 obj
+<</ProcSet [/PDF] >>
+endobj
+
+250 0 obj
+<</AIS false /BM /Multiply /Type /ExtGState >>
+endobj
+
+xref
+0 1
+0000000000 65535 f 
+2 3
+0003668477 00000 n 
+0003668816 00000 n 
+0003669218 00000 n 
+203 57
+0003669489 00000 n 
+0003669923 00000 n 
+0003670079 00000 n 
+0003670175 00000 n 
+0003670353 00000 n 
+0003670421 00000 n 
+0003670708 00000 n 
+0003670747 00000 n 
+0003670812 00000 n 
+0003670920 00000 n 
+0003671888 00000 n 
+0003672164 00000 n 
+0003672203 00000 n 
+0003672320 00000 n 
+0003673274 00000 n 
+0003673549 00000 n 
+0003673588 00000 n 
+0003673704 00000 n 
+0000000000 65535 f 
+0003674654 00000 n 
+0003674693 00000 n 
+0003674810 00000 n 
+0003675768 00000 n 
+0003676044 00000 n 
+0003676083 00000 n 
+0003676200 00000 n 
+0003676474 00000 n 
+0003676513 00000 n 
+0003676630 00000 n 
+0003677596 00000 n 
+0003677872 00000 n 
+0003677911 00000 n 
+0003678028 00000 n 
+0003678464 00000 n 
+0003678620 00000 n 
+0003678716 00000 n 
+0003678894 00000 n 
+0003678962 00000 n 
+0003679246 00000 n 
+0003679285 00000 n 
+0003679350 00000 n 
+0003679846 00000 n 
+0003680002 00000 n 
+0003680098 00000 n 
+0003680276 00000 n 
+0003680344 00000 n 
+0003680638 00000 n 
+0003680677 00000 n 
+0003668433 00000 n 
+0003667935 00000 n 
+0003667779 00000 n 
+0003667683 00000 n 
+0003667440 00000 n 
+0003667372 00000 n 
+0003667078 00000 n 
+0003667039 00000 n 
+0003667618 00000 n 
+trailer
+<</ID [<68444b0e745d791f3961d1ec434b6311> <a11c12c6ebf4b08e6f427a1326628dda>] /Info 2 0 R /Prev 3662895 /Root 13 0 R /Size 260 >>
+% PDFExpert 7.5.1.901 iOS 5758417ba8
+% Smart Incremental Update Autosave
+
+startxref
+3680742
+%%EOF
