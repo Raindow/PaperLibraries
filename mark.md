@@ -63,21 +63,21 @@ git push origin master
 错误情况统计：
 
 - Changes not staged for commit
+  
+    提交时加上参数：-a ，表示将新增的修改添加到提交过程中（不包括Untracked files）。
+  
+  ```bash
+  git commit -am "提交说明"
+  ```
 
-	提交时加上参数：-a ，表示将新增的修改添加到提交过程中（不包括Untracked files）。
-
-	```bash
-	git commit -am "提交说明"
-	```
-	
 - Untracked files
-
-	把文件添加进去
-
-	```bash
-	git add ""文件名
-	```
-
-	$git \ add$能够有多个后参数，含义不同
+  
+    把文件添加进去
+  
+  ```bash
+  git add ""文件名
+  ```
+  
+    $git \ add$能够有多个后参数，含义不同
 
 ![image-20201019201438376](MarkAssets/image-20201019201438376.png)
