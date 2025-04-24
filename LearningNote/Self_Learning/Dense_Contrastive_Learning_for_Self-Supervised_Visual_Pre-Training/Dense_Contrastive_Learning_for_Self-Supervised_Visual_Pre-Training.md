@@ -1,25 +1,25 @@
 # Dense Contrastive Learning for Self-Supervised Visual Pre-Training
 
-[toc]
+[TOC]
 
 - 词短句翻译
-
+  
   sub-optimal：不是最好的，次佳的
-
+  
   discrepancy：不符，矛盾
-
+  
   contrastive：对比的
-
+  
   negligible：微不足道的
-
+  
   overhead：费用，支出
-
+  
   paradigm：范例
-
+  
   dominant：占优势的
-
+  
   straightforward：直接的直观的
-
+  
   notoriously：众所周知地，臭名昭著地，（贬义词）
   
   projection：投影，映射
